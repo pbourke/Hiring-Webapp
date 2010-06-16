@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,14 +24,20 @@ public class TestController {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/hello")
-	public void hello(final HttpServletResponse response) throws IOException {
+	public String hello(final ModelMap model) throws IOException {
 		final List<TestBean> testBeans = sessionFactory.getCurrentSession().createCriteria(TestBean.class).list();
-		StringBuffer sb = new StringBuffer();
-		sb.append("<html><body><table><tr><th>ID</th><th>Name</th><th>Date</th><th>Gross</th></tr>");
-		for ( TestBean tb : testBeans ) {
-			sb.append( String.format("<tr><td>%d</td><td>%s</td><td>%s</td><td>%.2f</td></tr>",tb.getId(), tb.getName(), tb.getEventDate(), tb.getGross()) );
-		}
-		sb.append("</table></body></html>");
-		response.getWriter().write(sb.toString());
+		model.addAttribute("testBeans", testBeans);
+		return "test";
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/form")
+	public String form(final TestBean testBean) {
+		testBean.setName("new Name");
+		return "form";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/form")
+	public String postForm(final TestBean testBean) {
+		return "form_submitted";
 	}
 }
