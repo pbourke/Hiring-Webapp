@@ -24,6 +24,18 @@ public class TestBean {
 	private String currency;
 	private BigDecimal gross;
 	
+	@Basic
+	@Column(name="from_email")
+	private String fromEmail;
+	
+	@Basic
+	@Column(name="transaction_id")
+	private String transactionId;
+	
+	@Basic
+	@Column(name="item_title")
+	private String itemTitle;
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,5 +83,26 @@ public class TestBean {
 	}
 	public void setGross(BigDecimal gross) {
 		this.gross = gross;
+	}
+	
+	public String getFromEmail() {
+		return fromEmail;
+	}
+	public void setFromEmail(String fromEmail) {
+		this.fromEmail = fromEmail;
+	}
+	
+	public String getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
+	}
+	
+	public String getItemTitle() {
+		return itemTitle;
+	}
+	public void setItemTitle(String itemTitle) {
+		this.itemTitle = itemTitle;
 	}	
 }
