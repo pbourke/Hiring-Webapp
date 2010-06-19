@@ -38,7 +38,7 @@
     <!-- Maps all /app requests to the DispatcherServlet for handling --> 
     <servlet-mapping> 
         <servlet-name>Spring MVC Dispatcher Servlet</servlet-name> 
-        <url-pattern>/test/*</url-pattern> 
+        <url-pattern>/app/*</url-pattern> 
     </servlet-mapping> 
  
 </web-app> 
