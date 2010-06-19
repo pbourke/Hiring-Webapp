@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,10 +20,12 @@ import com.pb.servertest.model.TestBean;
 public class TestController {
 	private SessionFactory sessionFactory;
 	
+	@Autowired
 	public void setSessionFactory(final SessionFactory sf) {
 		sessionFactory = sf;
 	}
 	
+	@Transactional
 	@RequestMapping(method=RequestMethod.GET, value="/hello")
 	public String hello(final ModelMap model) throws IOException {
 		final List<TestBean> testBeans = sessionFactory.getCurrentSession().createCriteria(TestBean.class).list();
