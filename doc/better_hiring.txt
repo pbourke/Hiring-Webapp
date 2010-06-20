@@ -53,3 +53,13 @@ What is the Minimum Viable Product? (MVP)
 Who is the target market?
 
 - Teams within small to medium sized companies who are hiring technical professionals
+
+
+Where to I start?
+Phase 1: The core idea - competencies and ratings
+- single user system
+- add a Job(title, description)
+- add Competencies(name) and associate them with a Job(job id, competency id)
+- add a Candidate(name) for a Job
+- assign a Rating(number) to a Competency for a Candidate,Job pair
+
