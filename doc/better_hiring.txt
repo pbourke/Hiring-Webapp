@@ -1,0 +1,55 @@
+Problem
+
+The technical hiring process at many firms is broken and lacks good tool support to make the best decision.
+
+Elaboration
+
+What's broken?
+
+- Defining the competencies / focus areas for a given interview
+- Gathering data on candidates within the set of competencies in a structured fashion through the interview/evaluation process
+- Asking meaningful questions targetted to the areas of interest
+- Collecting resources and notes on a given candidate
+    - code samples
+    - phone screen audio
+    - publicly available code (open-sorce contributions ie github)
+    - blog entries, journal papers, published articles and books
+- Moving a candidate through a structured workflow
+- Facilitating meaningful, structured dialogue about a candidate (ie: comments)
+
+What's the most broken?
+
+- The hardest problem is gathering structured data - creating a process by which interviewers are incented and supported in gathering required information about a candidates competencies and plugging that information into a feedback loop which lets subsequent interviewers know what to focus on.
+- Using this structured data in decision support
+
+Solution
+
+- a web-based application which lets you define competencies, gather data within the competencies via interviews, code samples and public information and evaluate those competencies using a rating-type system.
+- the solution removes the time/cost burden of gathering this information and supports the interviewer in gathering good data and the team in making a good hiring decision
+
+Who will use it? (Roles)
+
+- Coordinators - recruiter / admin who inducts the candidate into the pipeline and performs scheduling and communication
+- Hring Managers - who define the core competencies for a position and contribute to a hiring decision
+- Interviewers / Evaluators - who gather data, assess an individual within the competencies and contribute to a hiring decision
+- Non-Hiring Managers - who measure and monitor a set of hiring processes
+
+What is the Minimum Viable Product? (MVP)
+
+- Add an interviewer
+- Add a recruiter/admin
+- Define a Job, which consists of a description and a set of competencies
+- As a recruiter, add a new candidate
+- Add a candidate's resume
+- Schedule a phone screen with the candidate and assign the phone screen and a set of competencies to a particular interviewer
+- Provide feedback on the interview, which consists of notes and a rating in each of the competencies
+- perform subsequent phone screens if desired
+- Schedule an onsite interview loop with one or more interviewers
+- Assign competencies to each interviewer to rate
+- Allow each interviewer to add interview feedback
+- Allow the recruiter to close out a candidate (hired, pulled out, rejected, etc) and provide a note
+- Display the history and details for a given candidate
+
+Who is the target market?
+
+- Teams within small to medium sized companies who are hiring technical professionals
