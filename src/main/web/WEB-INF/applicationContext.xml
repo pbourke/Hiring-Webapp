@@ -19,7 +19,7 @@
 			
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost/pbourke_test" />
+		<property name="url" value="jdbc:postgresql://localhost/hiring_online" />
 		<property name="username" value="app" />
 		<property name="password" value="app" />
 	</bean>
@@ -32,10 +32,6 @@
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
-		<property name="annotatedClasses">
-			<list>
-				<value>com.pb.servertest.model.TestBean</value>
-			</list>
-		</property>
+		<property name="annotatedPackages" value="com.pb.hiring.model" />
 	</bean>
 </beans>
