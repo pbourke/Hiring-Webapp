@@ -23,6 +23,7 @@
 		<fileset dir="${lib.resolved.dir}/test" includes="**/*.jar" />
 		<pathelement location="${build.war.dir}/WEB-INF/classes"/>
 		<pathelement location="${build.test.dir}"/>
+		<pathelement location="${build.war.dir}"/>
 	</path>
 	
 	<target name="init-ivy" description="Initialize Ivy for dependency management">
@@ -51,6 +52,9 @@
   <target name="compile" depends="init" description="compile the source " >
     <!-- Compile the java code from ${src.main.java} into ${build.dir} -->
     <javac srcdir="${src.main.java}" destdir="${build.war.dir}/WEB-INF/classes" classpathref="compile.path" debug="true" />
+	<copy todir="${build.war.dir}/WEB-INF">
+        <fileset dir="${src.web}/WEB-INF" includes="**/*"></fileset>
+	</copy>
   </target>
 
   <target name="dist" depends="compile"
@@ -58,9 +62,6 @@
         <copy todir="${build.war.dir}/WEB-INF/lib">
         	<fileset dir="${lib.resolved.dir}/runtime" includes="*.jar" />
         </copy>
-  		<copy todir="${build.war.dir}/WEB-INF">
-            <fileset dir="${src.web}/WEB-INF" includes="**/*"></fileset>
-  		</copy>
   		<war destfile="${dist}/test.war">
   			<fileset dir="${build.war.dir}" includes="**/*"></fileset>
   		</war>
