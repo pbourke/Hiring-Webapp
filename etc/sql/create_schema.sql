@@ -18,6 +18,7 @@ CREATE TABLE jobs
 (
   job_id bigint NOT NULL,
   title character varying(512) NOT NULL,
+  description text,
   CONSTRAINT jobs_pk PRIMARY KEY (job_id),
   CONSTRAINT jobs_ck_title CHECK (length(title::text) > 0)
 )
