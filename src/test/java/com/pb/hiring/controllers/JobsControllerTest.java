@@ -37,6 +37,7 @@ public class JobsControllerTest {
         final ModelMap modelMap = new ModelMap();
         assertEquals("jobs/list", jobsController.listJobs(modelMap));
         assertTrue(modelMap.containsAttribute("jobs"));
+        assertTrue(modelMap.containsAttribute("newJob"));
         final List<Job> jobsList = (List<Job>) modelMap.get("jobs");
         assertNotNull( jobsList );
         assertEquals(0, jobsList.size());

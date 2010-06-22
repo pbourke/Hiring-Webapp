@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +21,8 @@ public class JobsController {
     public void setSessionFactory(final SessionFactory sf) {
         sessionFactory = sf;
     }
-    
+
+    @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/jobs")
     public String listJobs(final ModelMap modelMap) {
         final List<Job> jobs = sessionFactory.getCurrentSession()
@@ -28,9 +30,11 @@ public class JobsController {
             .addOrder( Order.desc("creationDate") )
             .list();
         modelMap.addAttribute("jobs", jobs);
+        modelMap.addAttribute("newJob", new Job());
         return "jobs/list";
     }
 
+    @Transactional
     @RequestMapping(method=RequestMethod.POST, value="/jobs")
     public String addJob(final Job job, final ModelMap modelMap) {
         sessionFactory.getCurrentSession().saveOrUpdate(job);
