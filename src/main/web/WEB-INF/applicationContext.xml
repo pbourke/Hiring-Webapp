@@ -32,6 +32,6 @@
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
-		<property name="annotatedPackages" value="com.pb.hiring.model" />
+		<property name="annotatedClasses" value="com.pb.hiring.model.Job" />
 	</bean>
 </beans>

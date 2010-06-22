@@ -1,115 +1,48 @@
 package com.pb.hiring.model;
 
-public class Job {
-
-}
-/*
-package com.pb.servertest.model;
-
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * A Job holds information relating to a single Job posting
+ * in the system
+ * 
+ * @author pbourke
+ */
 @Entity
-@Table(name="jmb_data_sales")
-public class TestBean {
+@Table(name="jobs")
+@SequenceGenerator(name="job_id_seq", sequenceName="job_id_seq")
+public class Job {
     @Id
-    private Long id;
+    @Column(name="job_id")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="job_id_seq")
+    private Long jobId;
     
-    @Basic
-    @Column(name="event_date")
-    private Date eventDate;
-    private String name;
-    private String type;
-    private String status;
-    private String currency;
-    private BigDecimal gross;
+    private String title;
     
-    @Basic
-    @Column(name="from_email")
-    private String fromEmail;
+    private String description;
     
-    @Basic
-    @Column(name="transaction_id")
-    private String transactionId;
-    
-    @Basic
-    @Column(name="item_title")
-    private String itemTitle;
-    
-    public Long getId() {
-        return id;
+    public Long getJobId() {
+        return jobId;
     }
-    public void setId(Long id) {
-        this.id = id;
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     
-    public Date getEventDate() {
-        return eventDate;
-    }
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    public String getStatus() {
-        return status;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
-    public String getCurrency() {
-        return currency;
-    }
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-    
-    public BigDecimal getGross() {
-        return gross;
-    }
-    public void setGross(BigDecimal gross) {
-        this.gross = gross;
-    }
-    
-    public String getFromEmail() {
-        return fromEmail;
-    }
-    public void setFromEmail(String fromEmail) {
-        this.fromEmail = fromEmail;
-    }
-    
-    public String getTransactionId() {
-        return transactionId;
-    }
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-    
-    public String getItemTitle() {
-        return itemTitle;
-    }
-    public void setItemTitle(String itemTitle) {
-        this.itemTitle = itemTitle;
-    }   
 }
-*/

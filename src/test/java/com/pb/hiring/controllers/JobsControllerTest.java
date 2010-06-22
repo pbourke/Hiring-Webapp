@@ -41,4 +41,22 @@ public class JobsControllerTest {
         assertNotNull( jobsList );
         assertEquals(0, jobsList.size());
     }
+    
+    @Test
+    public void testAddJob() {
+        final Job job = new Job();
+        job.setTitle("Some Job");
+        job.setDescription("Work Work Work");
+        final ModelMap modelMapFromAdd = new ModelMap();
+        assertEquals("jobs/view", jobsController.addJob(job, modelMapFromAdd));
+        assertTrue( modelMapFromAdd.containsAttribute("job") );
+        
+        final ModelMap modelMapFromList = new ModelMap();
+        assertEquals("jobs/list", jobsController.listJobs(modelMapFromList));
+        assertTrue(modelMapFromList.containsAttribute("jobs"));
+        final List<Job> jobsList = (List<Job>) modelMapFromList.get("jobs");
+        assertNotNull( jobsList );
+        assertEquals(1, jobsList.size());
+        assertNotNull( jobsList.get(0).getJobId() );
+    }
 }

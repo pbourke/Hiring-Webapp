@@ -27,4 +27,11 @@ public class JobsController {
         modelMap.addAttribute("jobs", jobs);
         return "jobs/list";
     }
+
+    @RequestMapping(method=RequestMethod.POST, value="/jobs")
+    public String addJob(final Job job, final ModelMap modelMap) {
+        sessionFactory.getCurrentSession().saveOrUpdate(job);
+        modelMap.addAttribute("job", job);
+        return "jobs/view";
+    }
 }
