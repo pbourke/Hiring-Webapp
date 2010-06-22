@@ -19,6 +19,8 @@ CREATE TABLE jobs
   job_id bigint NOT NULL,
   title character varying(512) NOT NULL,
   description text,
+  creation_date timestamp without time zone NOT NULL,
+  record_version_number bigint NOT NULL,
   CONSTRAINT jobs_pk PRIMARY KEY (job_id),
   CONSTRAINT jobs_ck_title CHECK (length(title::text) > 0)
 )
@@ -28,6 +30,12 @@ WITH (
 ALTER TABLE jobs OWNER TO postgres;
 GRANT ALL ON TABLE jobs TO postgres;
 GRANT SELECT, UPDATE, INSERT ON TABLE jobs TO app;
+
+
+CREATE INDEX idx_jobs_creation_date
+  ON jobs
+  USING btree
+  (creation_date);
 
 
 CREATE SEQUENCE job_id_seq

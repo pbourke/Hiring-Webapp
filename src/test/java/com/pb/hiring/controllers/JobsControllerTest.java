@@ -56,7 +56,32 @@ public class JobsControllerTest {
         assertTrue(modelMapFromList.containsAttribute("jobs"));
         final List<Job> jobsList = (List<Job>) modelMapFromList.get("jobs");
         assertNotNull( jobsList );
-        assertEquals(1, jobsList.size());
+        assertEquals( 1, jobsList.size() );
         assertNotNull( jobsList.get(0).getJobId() );
+        assertEquals( "Some Job", jobsList.get(0).getTitle() );
+        assertNotNull( jobsList.get(0).getCreationDate() );
+        assertNotNull( jobsList.get(0).getRecordVersionNumber() );
+    }
+    
+    @Test
+    public void testAddTwoJobs() throws InterruptedException {
+        final ModelMap modelMap = new ModelMap();
+        
+        final Job job1 = new Job();
+        job1.setTitle("Developer");
+        jobsController.addJob(job1, modelMap);
+        
+        Thread.sleep(100L);
+        
+        final Job job2 = new Job();
+        job2.setTitle("Manager");
+        jobsController.addJob(job2, modelMap);
+        
+        jobsController.listJobs(modelMap);
+        final List<Job> jobsList = (List<Job>) modelMap.get("jobs");
+ 
+        assertEquals(2, jobsList.size());
+        assertEquals("Developer", jobsList.get(1).getTitle());
+        assertEquals("Manager", jobsList.get(0).getTitle());
     }
 }

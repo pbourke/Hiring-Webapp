@@ -3,6 +3,7 @@ package com.pb.hiring.controllers;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,7 +24,9 @@ public class JobsController {
     @RequestMapping(method=RequestMethod.GET, value="/jobs")
     public String listJobs(final ModelMap modelMap) {
         final List<Job> jobs = sessionFactory.getCurrentSession()
-            .createCriteria(Job.class).list();
+            .createCriteria(Job.class)
+            .addOrder( Order.desc("creationDate") )
+            .list();
         modelMap.addAttribute("jobs", jobs);
         return "jobs/list";
     }
