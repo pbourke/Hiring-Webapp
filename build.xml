@@ -76,6 +76,11 @@
 	
 	<target name="test" depends="compile">
 		<javac srcdir="${src.test.java}" destdir="${build.test.dir}" classpathref="test.path" />
+		
+		<!-- Copy non-java resource files src/test/java to the build directory -->
+		<copy todir="${build.test.dir}">
+			<fileset dir="${src.test.java}" includes="**/*" excludes="**/*.java" />
+		</copy>
 		<junit errorproperty="tests.failed" failureproperty="tests.failed">
 			<classpath refid="test.path" />
 			<batchtest todir="${report.tests.dir}">

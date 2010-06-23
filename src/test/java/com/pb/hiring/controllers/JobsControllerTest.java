@@ -22,7 +22,7 @@ import com.pb.hiring.model.Job;
 @Transactional
 @TransactionConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value={"classpath:WEB-INF/applicationContext.xml", "classpath:WEB-INF/app-beans.xml"})
+@ContextConfiguration(value={"classpath:WEB-INF/applicationContext.xml", "classpath:WEB-INF/app-beans.xml", "classpath:com/pb/hiring/unit-test-beans.xml"})
 public class JobsControllerTest {
     @Autowired(required=true)
     private JobsController jobsController;
@@ -38,6 +38,7 @@ public class JobsControllerTest {
         assertEquals("jobs/list", jobsController.listJobs(modelMap));
         assertTrue(modelMap.containsAttribute("jobs"));
         assertTrue(modelMap.containsAttribute("newJob"));
+        assertTrue( modelMap.get("newJob") instanceof Job );
         final List<Job> jobsList = (List<Job>) modelMap.get("jobs");
         assertNotNull( jobsList );
         assertEquals(0, jobsList.size());
