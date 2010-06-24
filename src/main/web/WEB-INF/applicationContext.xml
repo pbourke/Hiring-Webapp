@@ -32,6 +32,11 @@
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
-		<property name="annotatedClasses" value="com.pb.hiring.model.Job" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.pb.hiring.model.Job</value>
+				<value>com.pb.hiring.model.Competency</value>
+			</list>
+		</property>
 	</bean>
 </beans>
