@@ -86,4 +86,19 @@ public class JobsControllerTest {
         assertEquals("Developer", jobsList.get(1).getTitle());
         assertEquals("Manager", jobsList.get(0).getTitle());
     }
+    
+    @Test
+    public void testGetJobJobExists() {
+        final Job job = new Job();
+        job.setTitle("Some Job");
+        job.setDescription("Work Work Work");
+        jobsController.addJob(job, new ModelMap());
+        assertNotNull(job.getJobId());
+        
+        final ModelMap modelMap = new ModelMap();
+        assertEquals("jobs/view", jobsController.getJob(job.getJobId(), modelMap));
+        
+        assertTrue( modelMap.containsAttribute("job") );
+        assertEquals( job.getJobId(), ((Job)modelMap.get("job")).getJobId() );
+    }
 }

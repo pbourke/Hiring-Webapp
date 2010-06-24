@@ -3,11 +3,14 @@ package com.pb.hiring.controllers;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -38,6 +41,15 @@ public class JobsController {
     @RequestMapping(method=RequestMethod.POST, value="/jobs")
     public String addJob(final Job job, final ModelMap modelMap) {
         sessionFactory.getCurrentSession().saveOrUpdate(job);
+        modelMap.addAttribute("job", job);        
+        return "redirect:/jobs/" + job.getJobId();
+    }
+    
+    @Transactional
+    @RequestMapping(method=RequestMethod.GET, value="/jobs/{jobId}")
+    public String getJob(@PathVariable final Long jobId, final ModelMap modelMap) {
+        final Job job = (Job) sessionFactory.getCurrentSession().createCriteria(Job.class)
+            .add( Restrictions.idEq(jobId) ).uniqueResult();
         modelMap.addAttribute("job", job);
         return "jobs/view";
     }

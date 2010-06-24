@@ -9,12 +9,14 @@
 <title>View Job ${job.jobId}</title>
 </head>
 <body>
+<c:url value="/app/jobs" var="jobsListUrl" />
+<p><a href="${jobsListUrl}">Jobs List</a></p>
 
 <fmt:formatDate var="jobCreationDateFormatted" value="${job.creationDate}" pattern="MM/dd/yyyy" scope="page"/>
-Id: ${job.jobId}<br/>
-Title: <c:out value="${job.title}" /><br/>
-Description: <c:out value="${job.description}" /><br/>
-Created: ${jobCreationDateFormatted}<br/>
+<p><strong>Id</strong><br/>${job.jobId}</p>
+<p><strong>Title</strong><br/><c:out value="${job.title}" /></p>
+<p><strong>Description</strong><br/><c:out value="${job.description}" /></p>
+<p><strong>Created</strong><br/>${jobCreationDateFormatted}</p>
 
 </body>
 </html>
