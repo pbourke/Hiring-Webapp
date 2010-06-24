@@ -49,9 +49,8 @@ public class JobsControllerTest {
         final Job job = new Job();
         job.setTitle("Some Job");
         job.setDescription("Work Work Work");
-        final ModelMap modelMapFromAdd = new ModelMap();
-        assertEquals("jobs/view", jobsController.addJob(job, modelMapFromAdd));
-        assertTrue( modelMapFromAdd.containsAttribute("job") );
+        assertTrue("addJob redirects to newly-created Job detail page", 
+                jobsController.addJob(job).startsWith("redirect:jobs/"));
         
         final ModelMap modelMapFromList = new ModelMap();
         assertEquals("jobs/list", jobsController.listJobs(modelMapFromList));
@@ -67,18 +66,18 @@ public class JobsControllerTest {
     
     @Test
     public void testAddTwoJobs() throws InterruptedException {
-        final ModelMap modelMap = new ModelMap();
         
         final Job job1 = new Job();
         job1.setTitle("Developer");
-        jobsController.addJob(job1, modelMap);
+        jobsController.addJob(job1);
         
         Thread.sleep(100L);
         
         final Job job2 = new Job();
         job2.setTitle("Manager");
-        jobsController.addJob(job2, modelMap);
+        jobsController.addJob(job2);
         
+        final ModelMap modelMap = new ModelMap();
         jobsController.listJobs(modelMap);
         final List<Job> jobsList = (List<Job>) modelMap.get("jobs");
  
@@ -92,7 +91,7 @@ public class JobsControllerTest {
         final Job job = new Job();
         job.setTitle("Some Job");
         job.setDescription("Work Work Work");
-        jobsController.addJob(job, new ModelMap());
+        jobsController.addJob(job);
         assertNotNull(job.getJobId());
         
         final ModelMap modelMap = new ModelMap();

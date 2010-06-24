@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.pb.hiring.model.Job;
 
@@ -39,10 +41,9 @@ public class JobsController {
 
     @Transactional
     @RequestMapping(method=RequestMethod.POST, value="/jobs")
-    public String addJob(final Job job, final ModelMap modelMap) {
+    public String addJob(final Job job) {
         sessionFactory.getCurrentSession().saveOrUpdate(job);
-        modelMap.addAttribute("job", job);        
-        return "redirect:/jobs/" + job.getJobId();
+        return "redirect:jobs/" + job.getJobId();
     }
     
     @Transactional
