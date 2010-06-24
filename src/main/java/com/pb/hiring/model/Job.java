@@ -20,7 +20,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name="jobs")
-@SequenceGenerator(name="job_id_seq", sequenceName="job_id_seq")
+@SequenceGenerator(name="job_id_seq", sequenceName="job_id_seq", allocationSize=1)
 public class Job {
     @Id
     @Column(name="job_id")
