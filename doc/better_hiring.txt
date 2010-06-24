@@ -57,8 +57,8 @@ Who is the target market?
 
 Where to I start?
 Phase 1: The core idea - competencies and ratings
-- single user system
-- add a Job(title, description)
+x single user system
+x add a Job(title, description)
 - add Competencies(name) and associate them with a Job(job id, competency id)
 - add a Candidate(name) for a Job
 - assign a Rating(number) to a Competency for a Candidate,Job pair
