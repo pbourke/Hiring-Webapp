@@ -11,8 +11,8 @@
 <body>
 
 <ul>
-	<li>List Jobs</li>
-	<li><a href="/app/competencies">List Competencies</a></li>
+	<li>Jobs</li>
+	<li><a href="/app/skills">Skills</a></li>
 </ul>
 
 <h2>Add a New Job</h2>

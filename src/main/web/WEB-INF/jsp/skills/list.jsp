@@ -6,17 +6,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>List Competences</title>
+<title>List Skills</title>
 </head>
 <body>
 
 <ul>
-	<li><a href="/app/jobs">List Jobs</a></li>
-	<li>List Competencies</li>
+	<li><a href="/app/jobs">Jobs</a></li>
+	<li>Skills</li>
 </ul>
 
-<h2>Add a New Competency</h2>
-<form:form commandName="newCompetency" method="POST">
+<h2>Add a Skill</h2>
+<form:form commandName="newSkill" method="POST">
 	<p>
 		<form:label path="title">Title</form:label><br/>
 		<form:input path="title" size="50"/>
@@ -27,11 +27,11 @@
 		<form:textarea path="description" cols="50" rows="10" />
 	</p>
 	<p>
-		<input type="submit" value="Add Competency"/>
+		<input type="submit" value="Add Skill"/>
 	</p>
 </form:form>
 
-<h2>Competency List</h2>
+<h2>Skills List</h2>
 <table>
 <thead>
 	<tr>
@@ -39,9 +39,9 @@
 	</tr>
 </thead>
 <tbody>
-<c:forEach items="${competencies}" var="competency">
+<c:forEach items="${skills}" var="skill">
 <tr>
-	<td><c:out value="${competency.title}" /></td>
+	<td><c:out value="${skill.title}" /></td>
 </tr>
 </c:forEach>
 </tbody>
