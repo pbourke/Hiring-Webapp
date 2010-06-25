@@ -46,6 +46,19 @@ CREATE TABLE jobs (
 ALTER TABLE public.jobs OWNER TO postgres;
 
 --
+-- Name: jobs_skills; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jobs_skills (
+    job_id bigint NOT NULL,
+    skill_id bigint NOT NULL,
+    creation_date timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.jobs_skills OWNER TO postgres;
+
+--
 -- Name: skill_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -81,6 +94,14 @@ ALTER TABLE public.skills OWNER TO postgres;
 
 ALTER TABLE ONLY jobs
     ADD CONSTRAINT jobs_pk PRIMARY KEY (job_id);
+
+
+--
+-- Name: jobs_skills_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jobs_skills
+    ADD CONSTRAINT jobs_skills_pk PRIMARY KEY (job_id, skill_id);
 
 
 --

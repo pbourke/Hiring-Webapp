@@ -1,7 +1,7 @@
 package com.pb.hiring.controllers;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import com.pb.hiring.model.Job;
+import com.pb.hiring.model.Skill;
 
 @Transactional
 @TransactionConfiguration
@@ -26,6 +27,9 @@ import com.pb.hiring.model.Job;
 public class JobsControllerTest {
     @Autowired(required=true)
     private JobsController jobsController;
+    
+    @Autowired(required=true)
+    private SkillsController skillsController;
     
     @BeforeClass
     public static void setUpLog4J() {
@@ -99,5 +103,24 @@ public class JobsControllerTest {
         
         assertTrue( modelMap.containsAttribute("job") );
         assertEquals( job.getJobId(), ((Job)modelMap.get("job")).getJobId() );
+    }
+    
+    @Test
+    public void testAddSkill() {
+        final Job job = new Job();
+        job.setTitle("Some Job");
+        job.setDescription("Work Work Work");
+        jobsController.addJob(job);
+
+        final Skill skill = new Skill();
+        skill.setTitle("a Skill");
+        skillsController.addCompetency(skill);
+        
+        final ModelMap modelMap = new ModelMap();
+        jobsController.addSkill(job.getJobId(), skill, modelMap);
+        assertTrue( modelMap.containsAttribute("job") );
+        final Job jobFromMap = (Job) modelMap.get("job");
+        assertEquals( 1, jobFromMap.getSkills().size() );
+        assertEquals("a Skill", jobFromMap.getSkills().get(0).getTitle());
     }
 }

@@ -3,20 +3,18 @@ package com.pb.hiring.controllers;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.pb.hiring.model.Job;
+import com.pb.hiring.model.Skill;
 
 @Controller
 public class JobsController {
@@ -52,6 +50,17 @@ public class JobsController {
         final Job job = (Job) sessionFactory.getCurrentSession().createCriteria(Job.class)
             .add( Restrictions.idEq(jobId) ).uniqueResult();
         modelMap.addAttribute("job", job);
+        return "jobs/view";
+    }
+    
+    @Transactional
+    @RequestMapping(method=RequestMethod.POST, value="/jobs/{jobId}/skills")
+    public String addSkill(@PathVariable final Long jobId, final Skill inSkill, final ModelMap modelMap) {
+        getJob(jobId, modelMap);
+        final Job job = (Job) modelMap.get("job");
+        final Skill skill = (Skill) sessionFactory.getCurrentSession().get(Skill.class, inSkill.getCompetencyId());
+        job.getSkills().add(skill);
+//        sessionFactory.getCurrentSession().update(job.getSkills());
         return "jobs/view";
     }
 }

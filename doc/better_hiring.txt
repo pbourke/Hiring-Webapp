@@ -61,7 +61,7 @@ x single user system
 x add a Job(title, description)
 x add Competencies(name) 
 - associate Competencies with a Job(job id, competency id)
-- hiring_online should not be a template database - can drop and create as instance of hiring_unit_test
+x hiring_online should not be a template database - can drop and create as instance of hiring_unit_test
 - add a Candidate(name) for a Job
 - assign a Rating(number) to a Competency for a Candidate,Job pair
 
