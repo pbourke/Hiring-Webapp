@@ -107,10 +107,10 @@ CREATE INDEX idx_jobs_creation_date ON jobs USING btree (creation_date);
 
 
 --
--- Name: idx_skills_title; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: idx_skills_title_case_insensitive_uniq; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE INDEX idx_skills_title ON skills USING btree (title);
+CREATE UNIQUE INDEX idx_skills_title_case_insensitive_uniq ON skills USING btree (lower((title)::text));
 
 
 --

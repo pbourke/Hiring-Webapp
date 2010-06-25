@@ -23,7 +23,7 @@ public class SkillsController {
     public String listCompetencies(final ModelMap modelMap) {
         final List<Skill> competencies = sessionFactory.getCurrentSession()
             .createCriteria( Skill.class )
-                .addOrder( Order.desc("title") )
+                .addOrder( Order.asc("title").ignoreCase() )
                 .list();
         modelMap.put("skills", competencies);
         modelMap.put("newSkill", new Skill());

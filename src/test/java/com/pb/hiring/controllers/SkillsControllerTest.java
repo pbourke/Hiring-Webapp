@@ -37,10 +37,10 @@ public class SkillsControllerTest {
     public void testEmptyCompetenciesList() {
         final ModelMap resultMap = new ModelMap();
         assertEquals("skills/list", competenciesController.listCompetencies(resultMap));
-        final List<Skill> competencies = (List<Skill>) resultMap.get("competencies");
+        final List<Skill> competencies = (List<Skill>) resultMap.get("skills");
         assertNotNull( competencies );
         assertTrue(competencies.isEmpty() );
-        assertTrue(resultMap.get("newCompetency") instanceof Skill);
+        assertTrue(resultMap.get("newSkill") instanceof Skill);
     }
     
     @Test
@@ -49,7 +49,7 @@ public class SkillsControllerTest {
         final Skill c = new Skill();
         c.setDescription("some Description");
         c.setTitle("Some Title");
-        assertEquals( "redirect:competencies", competenciesController.addCompetency(c) );
+        assertEquals( "redirect:skills", competenciesController.addCompetency(c) );
         final List<Skill> competencies = listCompetencies();
         assertFalse( competencies.isEmpty() );
         assertEquals( "some Description", competencies.get(0).getDescription() );
@@ -62,6 +62,6 @@ public class SkillsControllerTest {
     private List<Skill> listCompetencies() {
         final ModelMap resultMap = new ModelMap();
         competenciesController.listCompetencies(resultMap);
-        return (List<Skill>) resultMap.get("competencies");
+        return (List<Skill>) resultMap.get("skills");
     }
 }
