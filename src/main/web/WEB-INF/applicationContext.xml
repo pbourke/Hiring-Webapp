@@ -35,7 +35,7 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.pb.hiring.model.Job</value>
-				<value>com.pb.hiring.model.Competency</value>
+				<value>com.pb.hiring.model.Skill</value>
 			</list>
 		</property>
 	</bean>

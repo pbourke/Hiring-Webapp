@@ -13,17 +13,17 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 /**
- * A Competency is a single skill which is evaluated for a Job.
+ * A Skill is a single skill which is evaluated for a Job.
  * 
  * @author pbourke
  */
 @Entity
-@Table(name="competencies")
-@SequenceGenerator(name="competency_id_seq", sequenceName="competency_id_seq", allocationSize=1)
-public class Competency {
+@Table(name="skills")
+@SequenceGenerator(name="skill_id_seq", sequenceName="skill_id_seq", allocationSize=1)
+public class Skill {
     @Id
-    @Column(name="competency_id")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="competency_id_seq")
+    @Column(name="skill_id")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="skill_id_seq")
     private Long competencyId;
     
     private String title;

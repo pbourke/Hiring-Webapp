@@ -11,28 +11,28 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.pb.hiring.model.Competency;
+import com.pb.hiring.model.Skill;
 
 @Controller
-public class CompetenciesController {
+public class SkillsController {
     @Autowired
     private SessionFactory sessionFactory;
     
     @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/competencies")
     public String listCompetencies(final ModelMap modelMap) {
-        final List<Competency> competencies = sessionFactory.getCurrentSession()
-            .createCriteria( Competency.class )
+        final List<Skill> competencies = sessionFactory.getCurrentSession()
+            .createCriteria( Skill.class )
                 .addOrder( Order.desc("title") )
                 .list();
         modelMap.put("competencies", competencies);
-        modelMap.put("newCompetency", new Competency());
-        return "competencies/list";
+        modelMap.put("newCompetency", new Skill());
+        return "skills/list";
     }
 
     @Transactional
     @RequestMapping(method=RequestMethod.POST, value="/competencies")
-    public String addCompetency(final Competency competency) {
+    public String addCompetency(final Skill competency) {
         sessionFactory.getCurrentSession().save(competency);
         return "redirect:competencies";
     }
