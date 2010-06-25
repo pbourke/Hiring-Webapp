@@ -6,17 +6,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>List Jobs</title>
+<title>List Competences</title>
 </head>
 <body>
 
 <ul>
-	<li>List Jobs</li>
-	<li><a href="/app/competencies">List Competencies</a></li>
+	<li><a href="/app/jobs">List Jobs</a></li>
+	<li>List Competencies</li>
 </ul>
 
-<h2>Add a New Job</h2>
-<form:form commandName="newJob" method="POST">
+<h2>Add a New Competency</h2>
+<form:form commandName="newCompetency" method="POST">
 	<p>
 		<form:label path="title">Title</form:label><br/>
 		<form:input path="title" size="50"/>
@@ -27,25 +27,21 @@
 		<form:textarea path="description" cols="50" rows="10" />
 	</p>
 	<p>
-		<input type="submit" value="Add Job"/>
+		<input type="submit" value="Add Competency"/>
 	</p>
 </form:form>
 
-<h2>Jobs List</h2>
+<h2>Competency List</h2>
 <table>
 <thead>
 	<tr>
 		<th>Title</th>
-		<th>Date Added</th>
 	</tr>
 </thead>
 <tbody>
-<c:forEach items="${jobs}" var="job">
-<fmt:formatDate var="jobCreationDateFormatted" value="${job.creationDate}" pattern="MM/dd/yyyy" scope="page"/>
-<c:url value="jobs/${job.jobId}" var="jobDetailUrl" />
+<c:forEach items="${competencies}" var="competency">
 <tr>
-	<td><a href="${jobDetailUrl}"><c:out value="${job.title}" /></a></td>
-	<td>${jobCreationDateFormatted}</td>
+	<td><c:out value="${competency.title}" /></td>
 </tr>
 </c:forEach>
 </tbody>
