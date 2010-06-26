@@ -114,10 +114,10 @@ public class JobsControllerTest {
 
         final Skill skill = new Skill();
         skill.setTitle("a Skill");
-        skillsController.addCompetency(skill);
+        skillsController.addSkill(skill);
         
         final ModelMap modelMap = new ModelMap();
-        jobsController.addSkill(job.getJobId(), skill.getCompetencyId(), modelMap);
+        jobsController.addSkill(job.getJobId(), skill.getSkillId(), modelMap);
         assertTrue( modelMap.containsAttribute("job") );
         final Job jobFromMap = (Job) modelMap.get("job");
         assertEquals( 1, jobFromMap.getSkills().size() );

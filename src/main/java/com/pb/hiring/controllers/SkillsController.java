@@ -20,20 +20,20 @@ public class SkillsController {
     
     @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/skills")
-    public String listCompetencies(final ModelMap modelMap) {
-        final List<Skill> competencies = sessionFactory.getCurrentSession()
+    public String listSkills(final ModelMap modelMap) {
+        final List<Skill> skills = sessionFactory.getCurrentSession()
             .createCriteria( Skill.class )
                 .addOrder( Order.asc("title").ignoreCase() )
                 .list();
-        modelMap.put("skills", competencies);
+        modelMap.put("skills", skills);
         modelMap.put("newSkill", new Skill());
         return "skills/list";
     }
 
     @Transactional
     @RequestMapping(method=RequestMethod.POST, value="/skills")
-    public String addCompetency(final Skill competency) {
-        sessionFactory.getCurrentSession().save(competency);
+    public String addSkill(final Skill skill) {
+        sessionFactory.getCurrentSession().save(skill);
         return "redirect:skills";
     }
 }

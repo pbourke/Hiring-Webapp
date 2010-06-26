@@ -24,7 +24,7 @@ public class Skill {
     @Id
     @Column(name="skill_id")
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="skill_id_seq")
-    private Long competencyId;
+    private Long skillId;
     
     private String title;
     
@@ -52,8 +52,8 @@ public class Skill {
         this.description = description;
     }
 
-    public Long getCompetencyId() {
-        return competencyId;
+    public Long getSkillId() {
+        return skillId;
     }
     public Date getCreationDate() {
         return creationDate;

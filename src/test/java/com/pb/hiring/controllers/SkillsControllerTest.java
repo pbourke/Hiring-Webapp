@@ -26,7 +26,7 @@ import com.pb.hiring.model.Skill;
 @ContextConfiguration(value={"classpath:WEB-INF/applicationContext.xml", "classpath:WEB-INF/app-beans.xml", "classpath:com/pb/hiring/unit-test-beans.xml"})
 public class SkillsControllerTest {
     @Autowired(required=true)
-    private SkillsController competenciesController;
+    private SkillsController skillsController;
     
     @BeforeClass
     public static void setUpLog4J() {
@@ -34,34 +34,34 @@ public class SkillsControllerTest {
     }
     
     @Test
-    public void testEmptyCompetenciesList() {
+    public void testEmptySkillsList() {
         final ModelMap resultMap = new ModelMap();
-        assertEquals("skills/list", competenciesController.listCompetencies(resultMap));
-        final List<Skill> competencies = (List<Skill>) resultMap.get("skills");
-        assertNotNull( competencies );
-        assertTrue(competencies.isEmpty() );
+        assertEquals("skills/list", skillsController.listSkills(resultMap));
+        final List<Skill> skills = (List<Skill>) resultMap.get("skills");
+        assertNotNull( skills );
+        assertTrue(skills.isEmpty() );
         assertTrue(resultMap.get("newSkill") instanceof Skill);
     }
     
     @Test
-    public void testAddCompetency() {
-        assertTrue( listCompetencies().isEmpty() );
+    public void testAddSkill() {
+        assertTrue( listSkills().isEmpty() );
         final Skill c = new Skill();
         c.setDescription("some Description");
         c.setTitle("Some Title");
-        assertEquals( "redirect:skills", competenciesController.addCompetency(c) );
-        final List<Skill> competencies = listCompetencies();
-        assertFalse( competencies.isEmpty() );
-        assertEquals( "some Description", competencies.get(0).getDescription() );
-        assertEquals( "Some Title", competencies.get(0).getTitle() );
-        assertNotNull( competencies.get(0).getCompetencyId() );
-        assertNotNull( competencies.get(0).getCreationDate() );
-        assertNotNull( competencies.get(0).getRecordVersionNumber() );        
+        assertEquals( "redirect:skills", skillsController.addSkill(c) );
+        final List<Skill> skills = listSkills();
+        assertFalse( skills.isEmpty() );
+        assertEquals( "some Description", skills.get(0).getDescription() );
+        assertEquals( "Some Title", skills.get(0).getTitle() );
+        assertNotNull( skills.get(0).getSkillId() );
+        assertNotNull( skills.get(0).getCreationDate() );
+        assertNotNull( skills.get(0).getRecordVersionNumber() );        
     }
     
-    private List<Skill> listCompetencies() {
+    private List<Skill> listSkills() {
         final ModelMap resultMap = new ModelMap();
-        competenciesController.listCompetencies(resultMap);
+        skillsController.listSkills(resultMap);
         return (List<Skill>) resultMap.get("skills");
     }
 }

@@ -24,7 +24,7 @@
 <form action="/app/jobs/${job.jobId}/skills" method="post">
 	<select id="skillId" name="skillId">
 	<c:forEach items="${skills}" var="skill">
-		<option value="${skill.competencyId}"><c:out value="${skill.title}" /></option>
+		<option value="${skill.skillId}"><c:out value="${skill.title}" /></option>
 	</c:forEach>
 	</select>
 	<input type="submit" value="Add Skill"/>
