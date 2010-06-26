@@ -56,12 +56,12 @@ Who is the target market?
 
 
 Where to I start?
-Phase 1: The core idea - competencies and ratings
+Phase 1: The core idea - skills and ratings
 x single user system
 x add a Job(title, description)
-x add Competencies(name) 
-- associate Competencies with a Job(job id, competency id)
+x add Skill(title) 
+x associate Skills with a Job(job id, skill id)
 x hiring_online should not be a template database - can drop and create as instance of hiring_unit_test
 - add a Candidate(name) for a Job
-- assign a Rating(number) to a Competency for a Candidate,Job pair
+- assign a Rating(number) to a Skill for a Candidate,Job pair
 
