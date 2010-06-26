@@ -117,7 +117,7 @@ public class JobsControllerTest {
         skillsController.addCompetency(skill);
         
         final ModelMap modelMap = new ModelMap();
-        jobsController.addSkill(job.getJobId(), skill, modelMap);
+        jobsController.addSkill(job.getJobId(), skill.getCompetencyId(), modelMap);
         assertTrue( modelMap.containsAttribute("job") );
         final Job jobFromMap = (Job) modelMap.get("job");
         assertEquals( 1, jobFromMap.getSkills().size() );

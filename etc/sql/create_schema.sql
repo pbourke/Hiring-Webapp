@@ -52,7 +52,7 @@ ALTER TABLE public.jobs OWNER TO postgres;
 CREATE TABLE jobs_skills (
     job_id bigint NOT NULL,
     skill_id bigint NOT NULL,
-    creation_date timestamp without time zone NOT NULL
+    creation_date timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -121,6 +121,13 @@ ALTER TABLE ONLY skills
 
 
 --
+-- Name: fki_jobs_skills_fk_skills; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX fki_jobs_skills_fk_skills ON jobs_skills USING btree (skill_id);
+
+
+--
 -- Name: idx_jobs_creation_date; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -132,6 +139,22 @@ CREATE INDEX idx_jobs_creation_date ON jobs USING btree (creation_date);
 --
 
 CREATE UNIQUE INDEX idx_skills_title_case_insensitive_uniq ON skills USING btree (lower((title)::text));
+
+
+--
+-- Name: jobs_skills_fk_jobs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_skills
+    ADD CONSTRAINT jobs_skills_fk_jobs FOREIGN KEY (job_id) REFERENCES jobs(job_id);
+
+
+--
+-- Name: jobs_skills_fk_skills; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jobs_skills
+    ADD CONSTRAINT jobs_skills_fk_skills FOREIGN KEY (skill_id) REFERENCES skills(skill_id);
 
 
 --
@@ -162,6 +185,16 @@ REVOKE ALL ON TABLE jobs FROM PUBLIC;
 REVOKE ALL ON TABLE jobs FROM postgres;
 GRANT ALL ON TABLE jobs TO postgres;
 GRANT SELECT,INSERT,UPDATE ON TABLE jobs TO app;
+
+
+--
+-- Name: jobs_skills; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE jobs_skills FROM PUBLIC;
+REVOKE ALL ON TABLE jobs_skills FROM postgres;
+GRANT ALL ON TABLE jobs_skills TO postgres;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE jobs_skills TO app;
 
 
 --

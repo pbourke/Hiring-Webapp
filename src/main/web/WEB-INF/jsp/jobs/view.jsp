@@ -9,14 +9,31 @@
 <title>View Job ${job.jobId}</title>
 </head>
 <body>
-<c:url value="/app/jobs" var="jobsListUrl" />
-<p><a href="${jobsListUrl}">Jobs List</a></p>
 
-<fmt:formatDate var="jobCreationDateFormatted" value="${job.creationDate}" pattern="MM/dd/yyyy" scope="page"/>
-<p><strong>Id</strong><br/>${job.jobId}</p>
-<p><strong>Title</strong><br/><c:out value="${job.title}" /></p>
+<ul>
+	<li><a href="/app/jobs">Jobs</a></li>
+	<li><a href="/app/skills">Skills</a></li>
+</ul>
+
+<h2><c:out value="${job.title}" /> (id# ${job.jobId})</h2>
 <p><strong>Description</strong><br/><c:out value="${job.description}" /></p>
+<fmt:formatDate var="jobCreationDateFormatted" value="${job.creationDate}" pattern="MM/dd/yyyy" scope="page"/>
 <p><strong>Created</strong><br/>${jobCreationDateFormatted}</p>
 
+<h3>Skills</h3>
+<form action="/app/jobs/${job.jobId}/skills" method="post">
+	<select id="skillId" name="skillId">
+	<c:forEach items="${skills}" var="skill">
+		<option value="${skill.competencyId}"><c:out value="${skill.title}" /></option>
+	</c:forEach>
+	</select>
+	<input type="submit" value="Add Skill"/>
+</form>
+
+<ul>
+<c:forEach items="${job.skills}" var="skill">
+	<li><c:out value="${skill.title}"/></li>
+</c:forEach>
+</ul>
 </body>
 </html>
