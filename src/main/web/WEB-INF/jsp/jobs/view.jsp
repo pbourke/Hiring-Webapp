@@ -32,7 +32,8 @@
 
 <ul>
 <c:forEach items="${job.skills}" var="skill">
-	<li><c:out value="${skill.title}"/></li>
+	<li><form action="/app/jobs/${job.jobId}/skills/${skill.skillId}" method="post"><input type="hidden" id="removeSkill" name="removeSkill" value="true"/><input type="submit" value="remove" /></form>
+		<c:out value="${skill.title}"/></li>
 </c:forEach>
 </ul>
 </body>

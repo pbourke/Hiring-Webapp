@@ -123,4 +123,27 @@ public class JobsControllerTest {
         assertEquals( 1, jobFromMap.getSkills().size() );
         assertEquals("a Skill", jobFromMap.getSkills().get(0).getTitle());
     }
+    
+    @Test
+    public void testRemoveSkill() {
+        final Job job = new Job();
+        job.setTitle("Some Job");
+        job.setDescription("Work Work Work");
+        jobsController.addJob(job);
+
+        final Skill skill = new Skill();
+        skill.setTitle("a Skill");
+        skillsController.addSkill(skill);
+        
+        final ModelMap modelMap = new ModelMap();
+        assertEquals( "redirect:/app/jobs/" + job.getJobId(), jobsController.addSkill(job.getJobId(), skill.getSkillId(), modelMap) );
+        assertTrue( modelMap.containsAttribute("job") );
+        final Job jobAfterAdd = (Job) modelMap.get("job");
+        assertEquals( 1, jobAfterAdd.getSkills().size() );
+        assertEquals("a Skill", jobAfterAdd.getSkills().get(0).getTitle());
+        
+        assertEquals( "redirect:/app/jobs/" + job.getJobId(), jobsController.removeSkill(job.getJobId(), skill.getSkillId(), true, modelMap) );
+        final Job jobAfterRemove = (Job) modelMap.get("job");
+        assertEquals( 0, jobAfterRemove.getSkills().size() );        
+    }
 }

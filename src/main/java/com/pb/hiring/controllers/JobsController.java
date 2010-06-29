@@ -80,4 +80,20 @@ public class JobsController {
         job.getSkills().add(skill);
         return "redirect:/app/jobs/" + job.getJobId();
     }
+
+    @Transactional
+    @RequestMapping(method=RequestMethod.POST, value="/jobs/{jobId}/skills/{skillId}")
+    public String removeSkill(@PathVariable final Long jobId, @PathVariable("skillId") final Long skillId, @RequestParam("removeSkill") final boolean removeSkill, final ModelMap modelMap) {
+        getJob(jobId, modelMap);
+        final Job job = (Job) modelMap.get("job");
+        logger.info( format("jobId=%d, skillId=%d", jobId, skillId) );
+        final Skill skill = (Skill) sessionFactory.getCurrentSession().get(Skill.class, skillId);
+        
+        if ( removeSkill ) {
+            job.getSkills().remove(skill);
+        }
+        
+        return "redirect:/app/jobs/" + job.getJobId();
+    }
+
 }
