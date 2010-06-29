@@ -12,6 +12,40 @@ SET escape_string_warning = off;
 SET search_path = public, pg_catalog;
 
 --
+-- Name: candidate_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE candidate_id_seq
+    START WITH 200
+    INCREMENT BY 5
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 25;
+
+
+ALTER TABLE public.candidate_id_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: candidates; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE candidates (
+    candidate_id bigint NOT NULL,
+    name character varying(512) NOT NULL,
+    email character varying(512),
+    creation_date timestamp without time zone DEFAULT now() NOT NULL,
+    record_version_number bigint NOT NULL,
+    CONSTRAINT jobs_ck_name CHECK ((length((name)::text) > 0))
+);
+
+
+ALTER TABLE public.candidates OWNER TO postgres;
+
+--
 -- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -24,10 +58,6 @@ CREATE SEQUENCE job_id_seq
 
 
 ALTER TABLE public.job_id_seq OWNER TO postgres;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: jobs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -87,6 +117,14 @@ CREATE TABLE skills (
 
 
 ALTER TABLE public.skills OWNER TO postgres;
+
+--
+-- Name: candidates_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY candidates
+    ADD CONSTRAINT candidates_pk PRIMARY KEY (candidate_id);
+
 
 --
 -- Name: jobs_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
@@ -165,6 +203,16 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT USAGE ON SCHEMA public TO app;
+
+
+--
+-- Name: candidates; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE candidates FROM PUBLIC;
+REVOKE ALL ON TABLE candidates FROM postgres;
+GRANT ALL ON TABLE candidates TO postgres;
+GRANT SELECT,INSERT,UPDATE ON TABLE candidates TO app;
 
 
 --
