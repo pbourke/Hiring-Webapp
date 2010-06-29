@@ -21,5 +21,22 @@
 <fmt:formatDate var="candidateCreationDateFormatted" value="${candidate.creationDate}" pattern="MM/dd/yyyy" scope="page"/>
 <p><strong>Created</strong><br/>${candidateCreationDateFormatted}</p>
 
+<h3>Jobs</h3>
+<form action="/app/candidates/${candidate.candidateId}/jobs" method="post">
+	<select id="jobId" name="jobId">
+	<c:forEach items="${jobs}" var="job">
+		<option value="${job.jobId}"><c:out value="${job.title}" /></option>
+	</c:forEach>
+	</select>
+	<input type="submit" value="Assign Candidate to Job"/>
+</form>
+
+<ul>
+<c:forEach items="${candidate.jobs}" var="job">
+	<li>
+		<a href="/app/candidates/${candidate.candidateId}/jobs/${job.jobId}"><c:out value="${job.title}" /></a>
+	</li>
+</c:forEach>
+</ul>
 </body>
 </html>

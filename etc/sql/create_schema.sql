@@ -46,6 +46,19 @@ CREATE TABLE candidates (
 ALTER TABLE public.candidates OWNER TO postgres;
 
 --
+-- Name: candidates_jobs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE candidates_jobs (
+    candidate_id bigint NOT NULL,
+    job_id bigint NOT NULL,
+    creation_date timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.candidates_jobs OWNER TO postgres;
+
+--
 -- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -119,6 +132,14 @@ CREATE TABLE skills (
 ALTER TABLE public.skills OWNER TO postgres;
 
 --
+-- Name: candidates_jobs_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY candidates_jobs
+    ADD CONSTRAINT candidates_jobs_pk PRIMARY KEY (candidate_id, job_id);
+
+
+--
 -- Name: candidates_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -180,6 +201,22 @@ CREATE UNIQUE INDEX idx_skills_title_case_insensitive_uniq ON skills USING btree
 
 
 --
+-- Name: candidates_jobs_fk_candidates; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY candidates_jobs
+    ADD CONSTRAINT candidates_jobs_fk_candidates FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id);
+
+
+--
+-- Name: candidates_jobs_fk_job_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY candidates_jobs
+    ADD CONSTRAINT candidates_jobs_fk_job_id FOREIGN KEY (job_id) REFERENCES jobs(job_id);
+
+
+--
 -- Name: jobs_skills_fk_jobs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -223,6 +260,16 @@ REVOKE ALL ON TABLE candidates FROM PUBLIC;
 REVOKE ALL ON TABLE candidates FROM postgres;
 GRANT ALL ON TABLE candidates TO postgres;
 GRANT SELECT,INSERT,UPDATE ON TABLE candidates TO app;
+
+
+--
+-- Name: candidates_jobs; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE candidates_jobs FROM PUBLIC;
+REVOKE ALL ON TABLE candidates_jobs FROM postgres;
+GRANT ALL ON TABLE candidates_jobs TO postgres;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE candidates_jobs TO app;
 
 
 --
