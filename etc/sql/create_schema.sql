@@ -206,6 +206,16 @@ GRANT USAGE ON SCHEMA public TO app;
 
 
 --
+-- Name: candidate_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON SEQUENCE candidate_id_seq FROM PUBLIC;
+REVOKE ALL ON SEQUENCE candidate_id_seq FROM postgres;
+GRANT ALL ON SEQUENCE candidate_id_seq TO postgres;
+GRANT ALL ON SEQUENCE candidate_id_seq TO app;
+
+
+--
 -- Name: candidates; Type: ACL; Schema: public; Owner: postgres
 --
 

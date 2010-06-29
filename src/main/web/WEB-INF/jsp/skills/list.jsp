@@ -13,6 +13,7 @@
 <ul>
 	<li><a href="/app/jobs">Jobs</a></li>
 	<li>Skills</li>
+	<li><a href="/app/candidates">Candidates</a></li>
 </ul>
 
 <h2>Add a Skill</h2>

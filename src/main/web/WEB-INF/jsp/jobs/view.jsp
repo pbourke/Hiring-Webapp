@@ -13,6 +13,7 @@
 <ul>
 	<li><a href="/app/jobs">Jobs</a></li>
 	<li><a href="/app/skills">Skills</a></li>
+	<li><a href="/app/candidates">Candidates</a></li>	
 </ul>
 
 <h2><c:out value="${job.title}" /> (id# ${job.jobId})</h2>
