@@ -1,0 +1,7 @@
+# run webapp (run from /Users/pbourke/Downloads/jetty-distribution-7.1.4.v20100610)
+cd /Users/pbourke/Documents/springmvc-test/TestWebApp; ant clean dist; cd -; rm -r webapps/root; cp -r /Users/pbourke/Documents/springmvc-test/TestWebApp/build/war/ webapps/root; java -jar start.jar
+
+
+# drop online db and recreate from unit test db:
+drop database hiring_online;
+create database hiring_online with owner=pbourke template=hiring_unit_test;
