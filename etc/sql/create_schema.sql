@@ -80,7 +80,7 @@ CREATE TABLE jobs (
     job_id bigint NOT NULL,
     title character varying(512) NOT NULL,
     description text,
-    creation_date timestamp without time zone NOT NULL,
+    creation_date timestamp without time zone DEFAULT now() NOT NULL,
     record_version_number bigint NOT NULL,
     CONSTRAINT jobs_ck_title CHECK ((length((title)::text) > 0))
 );
@@ -100,6 +100,39 @@ CREATE TABLE jobs_skills (
 
 
 ALTER TABLE public.jobs_skills OWNER TO postgres;
+
+--
+-- Name: rating_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE rating_id_seq
+    START WITH 100
+    INCREMENT BY 5
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 25;
+
+
+ALTER TABLE public.rating_id_seq OWNER TO postgres;
+
+--
+-- Name: ratings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE ratings (
+    job_id bigint NOT NULL,
+    candidate_id bigint NOT NULL,
+    skill_id bigint NOT NULL,
+    rating integer NOT NULL,
+    notes text,
+    creation_date timestamp without time zone DEFAULT now() NOT NULL,
+    record_version_number bigint NOT NULL,
+    rating_id bigint NOT NULL,
+    CONSTRAINT ratings_ck_rating CHECK (((rating >= 1) AND (rating <= 5)))
+);
+
+
+ALTER TABLE public.ratings OWNER TO postgres;
 
 --
 -- Name: skill_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -123,7 +156,7 @@ CREATE TABLE skills (
     skill_id bigint NOT NULL,
     title character varying(512) NOT NULL,
     description text,
-    creation_date timestamp without time zone NOT NULL,
+    creation_date timestamp without time zone DEFAULT now() NOT NULL,
     record_version_number bigint NOT NULL,
     CONSTRAINT skills_ck_title_not_empty CHECK ((length((title)::text) > 0))
 );
@@ -161,6 +194,14 @@ ALTER TABLE ONLY jobs
 
 ALTER TABLE ONLY jobs_skills
     ADD CONSTRAINT jobs_skills_pk PRIMARY KEY (job_id, skill_id);
+
+
+--
+-- Name: ratings_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_pk PRIMARY KEY (rating_id);
 
 
 --
@@ -233,6 +274,46 @@ ALTER TABLE ONLY jobs_skills
 
 
 --
+-- Name: ratings_fk_candidates; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_fk_candidates FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id);
+
+
+--
+-- Name: ratings_fk_candidates_jobs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_fk_candidates_jobs FOREIGN KEY (candidate_id, job_id) REFERENCES candidates_jobs(candidate_id, job_id);
+
+
+--
+-- Name: ratings_fk_jobs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_fk_jobs FOREIGN KEY (job_id) REFERENCES jobs(job_id);
+
+
+--
+-- Name: ratings_fk_jobs_skills; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_fk_jobs_skills FOREIGN KEY (job_id, skill_id) REFERENCES jobs_skills(job_id, skill_id);
+
+
+--
+-- Name: ratings_fk_skills; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_fk_skills FOREIGN KEY (skill_id) REFERENCES skills(skill_id);
+
+
+--
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -300,6 +381,26 @@ REVOKE ALL ON TABLE jobs_skills FROM PUBLIC;
 REVOKE ALL ON TABLE jobs_skills FROM postgres;
 GRANT ALL ON TABLE jobs_skills TO postgres;
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE jobs_skills TO app;
+
+
+--
+-- Name: rating_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON SEQUENCE rating_id_seq FROM PUBLIC;
+REVOKE ALL ON SEQUENCE rating_id_seq FROM postgres;
+GRANT ALL ON SEQUENCE rating_id_seq TO postgres;
+GRANT ALL ON SEQUENCE rating_id_seq TO app;
+
+
+--
+-- Name: ratings; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE ratings FROM PUBLIC;
+REVOKE ALL ON TABLE ratings FROM postgres;
+GRANT ALL ON TABLE ratings TO postgres;
+GRANT SELECT,INSERT,UPDATE ON TABLE ratings TO app;
 
 
 --
