@@ -19,26 +19,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
+import com.pb.hiring.service.ModelQueryHelper;
 
 @Controller
 public class CandidatesController {
     private final Log logger = LogFactory.getLog( getClass() );
     
+    @Autowired
     private SessionFactory sessionFactory;
     
     @Autowired
-    public void setSessionFactory(final SessionFactory sf) {
-        sessionFactory = sf;
-    }
-    
-    @Transactional
+    private ModelQueryHelper modelQueryHelper;
+        
     @RequestMapping(method=RequestMethod.GET, value="/candidates")
     public String listCandidates(final ModelMap modelMap) {
-        final List<Candidate> candidates = sessionFactory.getCurrentSession()
-            .createCriteria(Candidate.class)
-            .addOrder( Order.desc("creationDate") )
-            .list();
-        modelMap.put("candidates", candidates);
+        modelMap.put("candidates", modelQueryHelper.allCandidates().list());
         modelMap.put("newCandidate", new Candidate());
         return "candidates/list";
     }
@@ -79,5 +74,14 @@ public class CandidatesController {
         final Job job = (Job) sessionFactory.getCurrentSession().get(Job.class, jobId);
         candidate.addJob(job);
         return "redirect:/app/candidates/"+candidate.getCandidateId();
+    }
+    
+    @Transactional
+    @RequestMapping(method=RequestMethod.GET, value="/candidates/{candidateId}/jobs/{jobId}")
+    public String getCandidateJobPage(@PathVariable final Long candidateId, @PathVariable final Long jobId, final ModelMap modelMap) {
+        // retrieve the candidate and add to model
+        // retrieve the job and add to model
+        // retrieve the ratings and add to model
+        return "candidates/job";
     }
 }

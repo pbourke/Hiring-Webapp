@@ -41,4 +41,6 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="modelQueryHelper" class="com.pb.hiring.service.ModelQueryHelperImpl" />
 </beans>
