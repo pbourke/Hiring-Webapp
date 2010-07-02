@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import com.pb.hiring.model.Candidate;
+import com.pb.hiring.model.Rating;
 import com.pb.hiring.service.ModelQueryHelper;
 
 @Transactional
@@ -55,5 +56,12 @@ public class CandidatesControllerTest {
         final Candidate candidate = candidates.get(0);
         assertEquals( "email is correct", c.getEmail(), candidate.getEmail() );
         assertEquals( "name is correct", c.getName(), candidate.getName() );
+    }
+    
+    @Test
+    public void testGetCandidateJobPageEmpty() {        
+        final ModelMap modelMap = new ModelMap();
+        assertEquals( "candidates/job", candidatesController.getCandidateJobPage(-1L, -1L, modelMap) );
+        assertTrue( "Ratings list is empty", ((List<Rating>)modelMap.get("ratings")).isEmpty() );
     }
 }

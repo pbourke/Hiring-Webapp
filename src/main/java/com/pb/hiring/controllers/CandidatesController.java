@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
+import com.pb.hiring.model.Rating;
 import com.pb.hiring.service.ModelQueryHelper;
 
 @Controller
@@ -30,7 +31,8 @@ public class CandidatesController {
     
     @Autowired
     private ModelQueryHelper modelQueryHelper;
-        
+
+    @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/candidates")
     public String listCandidates(final ModelMap modelMap) {
         modelMap.put("candidates", modelQueryHelper.allCandidates().list());
@@ -48,17 +50,11 @@ public class CandidatesController {
     @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/candidates/{candidateId}")
     public String getCandidate(@PathVariable final Long candidateId, final ModelMap modelMap) {
-        final Candidate candidate = (Candidate) sessionFactory.getCurrentSession()
-            .createCriteria(Candidate.class)
-            .add( Restrictions.idEq(candidateId) )
-            .setFetchMode("jobs", FetchMode.JOIN)
-            .uniqueResult();
+        Candidate candidate = (Candidate) modelQueryHelper.candidateById(candidateId).uniqueResult();
+        
         modelMap.addAttribute("candidate", candidate);
         
-        final List<Job> jobs = sessionFactory.getCurrentSession()
-            .createCriteria(Job.class)
-            .addOrder( Order.desc("creationDate") )
-            .list();
+        final List<Job> jobs = modelQueryHelper.allJobs().list();
         
         jobs.removeAll( candidate.getJobs() );
         
@@ -80,8 +76,17 @@ public class CandidatesController {
     @RequestMapping(method=RequestMethod.GET, value="/candidates/{candidateId}/jobs/{jobId}")
     public String getCandidateJobPage(@PathVariable final Long candidateId, @PathVariable final Long jobId, final ModelMap modelMap) {
         // retrieve the candidate and add to model
+        final Candidate candidate = (Candidate) modelQueryHelper.candidateById(candidateId).uniqueResult();
+        modelMap.addAttribute("candidate", candidate);
+        
         // retrieve the job and add to model
+        final Job job = (Job) modelQueryHelper.jobById(jobId).uniqueResult();
+        modelMap.addAttribute("job", job);
+        
         // retrieve the ratings and add to model
+        final List<Rating> ratings = modelQueryHelper.ratingsByCandidateAndJob(candidateId, jobId).list();
+        modelMap.addAttribute("ratings", ratings);
+        
         return "candidates/job";
     }
 }

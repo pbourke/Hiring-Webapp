@@ -6,10 +6,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,26 +18,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.service.ModelQueryHelper;
 
 @Controller
 public class JobsController {
     private final Log logger = LogFactory.getLog( getClass() );
     
+    @Autowired(required=true)
     private SessionFactory sessionFactory;
     
-    @Autowired
-    public void setSessionFactory(final SessionFactory sf) {
-        sessionFactory = sf;
-    }
-
+    @Autowired(required=true)
+    private ModelQueryHelper modelQueryHelper;
+    
     @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/jobs")
     public String listJobs(final ModelMap modelMap) {
-        final List<Job> jobs = sessionFactory.getCurrentSession()
-            .createCriteria(Job.class)
-            .addOrder( Order.desc("creationDate") )
-            .list();
-        modelMap.addAttribute("jobs", jobs);
+        modelMap.addAttribute("jobs", modelQueryHelper.allJobs().list());
         modelMap.addAttribute("newJob", new Job());
         return "jobs/list";
     }
@@ -55,15 +48,9 @@ public class JobsController {
     @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/jobs/{jobId}")
     public String getJob(@PathVariable final Long jobId, final ModelMap modelMap) {
-        final Job job = (Job) sessionFactory.getCurrentSession().createCriteria(Job.class)
-            .setFetchMode("skills", FetchMode.JOIN)
-            .add( Restrictions.idEq(jobId) )
-            .uniqueResult();
+        final Job job = (Job) modelQueryHelper.jobById(jobId).uniqueResult();
         modelMap.addAttribute("job", job);
-        final List<Skill> skills = sessionFactory.getCurrentSession()
-            .createCriteria( Skill.class )
-                .addOrder( Order.asc("title").ignoreCase() )
-                .list();
+        final List<Skill> skills = modelQueryHelper.allSkills().list();
         skills.removeAll( job.getSkills() );
         modelMap.addAttribute("skills", skills);        
         return "jobs/view";

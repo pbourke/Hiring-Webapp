@@ -9,8 +9,12 @@ import org.hibernate.Criteria;
  */
 public interface ModelQueryHelper {
     Criteria allCandidates();
-    Criteria candidateById(final Long candidateId);
+    Criteria candidateById(Long candidateId);
     
     Criteria allJobs();
-    Criteria jobById(final Long jobId);
+    Criteria jobById(Long jobId);
+    
+    Criteria allSkills();
+    
+    Criteria ratingsByCandidateAndJob(Long candidateId, Long jobId);
 }
