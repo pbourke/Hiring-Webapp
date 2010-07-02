@@ -17,7 +17,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
+import com.pb.hiring.TestDataGenerator;
 import com.pb.hiring.model.Candidate;
+import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.service.ModelQueryHelper;
 
@@ -31,6 +33,9 @@ public class CandidatesControllerTest {
     
     @Autowired(required=true)
     private ModelQueryHelper modelQueryHelper;
+    
+    @Autowired(required=true)
+    private TestDataGenerator testData;
     
     @BeforeClass
     public static void setUpLog4J() {
@@ -59,9 +64,13 @@ public class CandidatesControllerTest {
     }
     
     @Test
-    public void testGetCandidateJobPageEmpty() {        
+    public void testGetCandidateJobPageNoRatings() {
+        final Job j = testData.job();
+        final Candidate c = testData.candidate(j);
+        
         final ModelMap modelMap = new ModelMap();
-        assertEquals( "candidates/job", candidatesController.getCandidateJobPage(-1L, -1L, modelMap) );
+        assertEquals( "candidates/job", candidatesController.getCandidateJobPage(c.getCandidateId(), j.getJobId(), modelMap) );
         assertTrue( "Ratings list is empty", ((List<Rating>)modelMap.get("ratings")).isEmpty() );
+        assertEquals( "job was added to model map", j.getJobId(), ((Job)modelMap.get("job")).getJobId() );
     }
 }

@@ -18,7 +18,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
+import com.pb.hiring.TestDataGenerator;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.service.ModelQueryHelper;
 
 @Transactional
 @TransactionConfiguration
@@ -28,6 +30,12 @@ public class SkillsControllerTest {
     @Autowired(required=true)
     private SkillsController skillsController;
     
+    @Autowired(required=true)
+    private ModelQueryHelper modelQueryHelper;
+    
+    @Autowired(required=true)
+    private TestDataGenerator testData;
+    
     @BeforeClass
     public static void setUpLog4J() {
         BasicConfigurator.configure();
@@ -35,6 +43,7 @@ public class SkillsControllerTest {
     
     @Test
     public void testEmptySkillsList() {
+        assertTrue( "skills list is empty", modelQueryHelper.allSkills().list().isEmpty() );
         final ModelMap resultMap = new ModelMap();
         assertEquals("skills/list", skillsController.listSkills(resultMap));
         final List<Skill> skills = (List<Skill>) resultMap.get("skills");
@@ -44,24 +53,31 @@ public class SkillsControllerTest {
     }
     
     @Test
+    public void testSkillsListContainsOneItem() {
+        final Skill skill = testData.skill();
+        final ModelMap resultMap = new ModelMap();
+        assertEquals("skills/list", skillsController.listSkills(resultMap));
+        final List<Skill> skills = (List<Skill>) resultMap.get("skills");
+        assertNotNull( skills );
+        assertFalse(skills.isEmpty() ); 
+        assertEquals( skill.getSkillId(), skills.get(0).getSkillId() );
+        assertTrue(resultMap.get("newSkill") instanceof Skill);
+        
+    }
+    
+    @Test
     public void testAddSkill() {
-        assertTrue( listSkills().isEmpty() );
+        assertTrue( modelQueryHelper.allSkills().list().isEmpty() );
         final Skill c = new Skill();
         c.setDescription("some Description");
         c.setTitle("Some Title");
         assertEquals( "redirect:skills", skillsController.addSkill(c) );
-        final List<Skill> skills = listSkills();
+        final List<Skill> skills = modelQueryHelper.allSkills().list();
         assertFalse( skills.isEmpty() );
         assertEquals( "some Description", skills.get(0).getDescription() );
         assertEquals( "Some Title", skills.get(0).getTitle() );
         assertNotNull( skills.get(0).getSkillId() );
         assertNotNull( skills.get(0).getCreationDate() );
         assertNotNull( skills.get(0).getRecordVersionNumber() );        
-    }
-    
-    private List<Skill> listSkills() {
-        final ModelMap resultMap = new ModelMap();
-        skillsController.listSkills(resultMap);
-        return (List<Skill>) resultMap.get("skills");
     }
 }

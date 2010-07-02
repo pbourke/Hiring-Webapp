@@ -1,5 +1,6 @@
 package com.pb.hiring.controllers;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +18,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
+import com.pb.hiring.TestDataGenerator;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Skill;
 
@@ -29,7 +31,7 @@ public class JobsControllerTest {
     private JobsController jobsController;
     
     @Autowired(required=true)
-    private SkillsController skillsController;
+    private TestDataGenerator testData;
     
     @BeforeClass
     public static void setUpLog4J() {
@@ -69,34 +71,25 @@ public class JobsControllerTest {
     }
     
     @Test
-    public void testAddTwoJobs() throws InterruptedException {
-        
-        final Job job1 = new Job();
-        job1.setTitle("Developer");
-        jobsController.addJob(job1);
+    public void testAddTwoJobs() throws InterruptedException {        
+        final Job job1 = testData.job();
         
         Thread.sleep(100L);
         
-        final Job job2 = new Job();
-        job2.setTitle("Manager");
-        jobsController.addJob(job2);
+        final Job job2 = testData.job();
         
         final ModelMap modelMap = new ModelMap();
         jobsController.listJobs(modelMap);
         final List<Job> jobsList = (List<Job>) modelMap.get("jobs");
  
         assertEquals(2, jobsList.size());
-        assertEquals("Developer", jobsList.get(1).getTitle());
-        assertEquals("Manager", jobsList.get(0).getTitle());
+        assertEquals(job1.getTitle(), jobsList.get(1).getTitle());
+        assertEquals(job2.getTitle(), jobsList.get(0).getTitle());
     }
     
     @Test
     public void testGetJobJobExists() {
-        final Job job = new Job();
-        job.setTitle("Some Job");
-        job.setDescription("Work Work Work");
-        jobsController.addJob(job);
-        assertNotNull(job.getJobId());
+        final Job job = testData.job();
         
         final ModelMap modelMap = new ModelMap();
         assertEquals("jobs/view", jobsController.getJob(job.getJobId(), modelMap));
@@ -107,43 +100,28 @@ public class JobsControllerTest {
     
     @Test
     public void testAddSkill() {
-        final Job job = new Job();
-        job.setTitle("Some Job");
-        job.setDescription("Work Work Work");
-        jobsController.addJob(job);
-
-        final Skill skill = new Skill();
-        skill.setTitle("a Skill");
-        skillsController.addSkill(skill);
+        final Job job = testData.job();
+        final Skill skill = testData.skill();
         
         final ModelMap modelMap = new ModelMap();
         jobsController.addSkill(job.getJobId(), skill.getSkillId(), modelMap);
         assertTrue( modelMap.containsAttribute("job") );
         final Job jobFromMap = (Job) modelMap.get("job");
-        assertEquals( 1, jobFromMap.getSkills().size() );
-        assertEquals("a Skill", jobFromMap.getSkills().get(0).getTitle());
+        assertEquals( job.getJobId(), jobFromMap.getJobId() );
+        assertEquals( 2, jobFromMap.getSkills().size() );
+        assertEquals(skill.getSkillId(), jobFromMap.getSkills().get(1).getSkillId());
     }
     
     @Test
     public void testRemoveSkill() {
-        final Job job = new Job();
-        job.setTitle("Some Job");
-        job.setDescription("Work Work Work");
-        jobsController.addJob(job);
-
-        final Skill skill = new Skill();
-        skill.setTitle("a Skill");
-        skillsController.addSkill(skill);
-        
+        final Job job = testData.job();
+        final Skill skill = job.getSkills().get(0);
         final ModelMap modelMap = new ModelMap();
-        assertEquals( "redirect:/app/jobs/" + job.getJobId(), jobsController.addSkill(job.getJobId(), skill.getSkillId(), modelMap) );
-        assertTrue( modelMap.containsAttribute("job") );
-        final Job jobAfterAdd = (Job) modelMap.get("job");
-        assertEquals( 1, jobAfterAdd.getSkills().size() );
-        assertEquals("a Skill", jobAfterAdd.getSkills().get(0).getTitle());
         
+        assertFalse( "job has a skill", job.getSkills().isEmpty() );
         assertEquals( "redirect:/app/jobs/" + job.getJobId(), jobsController.removeSkill(job.getJobId(), skill.getSkillId(), true, modelMap) );
         final Job jobAfterRemove = (Job) modelMap.get("job");
+        assertEquals( "job is the same", job.getJobId(), jobAfterRemove.getJobId() );
         assertEquals( 0, jobAfterRemove.getSkills().size() );        
     }
 }
