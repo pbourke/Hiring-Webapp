@@ -89,4 +89,10 @@ public class CandidatesController {
         
         return "candidates/job";
     }
+
+    @Transactional
+    @RequestMapping(method=RequestMethod.POST, value="/candidates/{candidateId}/jobs/{jobId}/skills/{skillId}")
+    public String addRating(@PathVariable final Long candidateId, @PathVariable final Long jobId, @PathVariable final Long skillId, @RequestParam("ratingValue") final int ratingValue, @RequestParam("notes") final String notes) {
+        return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId;
+    }
 }

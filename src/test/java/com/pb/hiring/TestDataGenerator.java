@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
+import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
 
 public class TestDataGenerator {
@@ -23,6 +24,7 @@ public class TestDataGenerator {
         j.setTitle("Job Title " + jobCtr.incrementAndGet());
         j.getSkills().add( skill() );
         sessionFactory.getCurrentSession().save(j);
+        sessionFactory.getCurrentSession().flush();
         return j;
     }
     
@@ -47,6 +49,16 @@ public class TestDataGenerator {
         final Candidate c = candidate();
         c.addJob(j);
         sessionFactory.getCurrentSession().save(c);
+        sessionFactory.getCurrentSession().flush();
         return c;
     }
+    
+    public Rating rating(final Job j, final Candidate c, final Skill s, int ratingVal) {
+        final Rating rating = new Rating(j, s, c);
+        rating.setRating(ratingVal);
+        rating.setNotes("Rating notes");
+        sessionFactory.getCurrentSession().save(rating);
+        return rating;
+    }
+    
 }

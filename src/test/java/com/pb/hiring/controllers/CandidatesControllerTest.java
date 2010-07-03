@@ -21,6 +21,7 @@ import com.pb.hiring.TestDataGenerator;
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
+import com.pb.hiring.model.Skill;
 import com.pb.hiring.service.ModelQueryHelper;
 
 @Transactional
@@ -72,5 +73,31 @@ public class CandidatesControllerTest {
         assertEquals( "candidates/job", candidatesController.getCandidateJobPage(c.getCandidateId(), j.getJobId(), modelMap) );
         assertTrue( "Ratings list is empty", ((List<Rating>)modelMap.get("ratings")).isEmpty() );
         assertEquals( "job was added to model map", j.getJobId(), ((Job)modelMap.get("job")).getJobId() );
+    }
+    
+    @Test
+    public void testGetCandidateJobPageOneRating() {
+        final Job j = testData.job();
+        final Candidate c = testData.candidate(j);
+        final Skill s = j.getSkills().get(0);        
+        final Rating r = testData.rating(j, c, s, 2);
+        
+        final ModelMap modelMap = new ModelMap();
+        assertEquals( "candidates/job", candidatesController.getCandidateJobPage(c.getCandidateId(), j.getJobId(), modelMap) );
+        assertEquals( "job was added to model map", j.getJobId(), ((Job)modelMap.get("job")).getJobId() );
+        assertEquals( "Ratings list has 1 item", 1, ((List<Rating>)modelMap.get("ratings")).size() );
+        assertEquals( "correct rating was returned", r, ((List<Rating>)modelMap.get("ratings")).get(0) );
+    }
+    
+    @Test
+    public void testAddRating() {
+        final Job j = testData.job();
+        final Candidate c = testData.candidate(j);
+        final Skill s = j.getSkills().get(0);        
+
+        assertEquals( "redirect:/app/candidates/"+c.getCandidateId()+"/jobs/"+j.getJobId(), 
+                candidatesController.addRating(c.getCandidateId(), j.getJobId(), s.getSkillId(), 3, "some notes"));
+        
+        // todo: query for ratings and verify that one has been added
     }
 }
