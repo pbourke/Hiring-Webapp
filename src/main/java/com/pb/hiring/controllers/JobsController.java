@@ -63,7 +63,7 @@ public class JobsController {
         final Job job = (Job) modelMap.get("job");
         logger.info( format("jobId=%d, skillId=%d", jobId, skillId) );
         final Skill skill = (Skill) sessionFactory.getCurrentSession().get(Skill.class, skillId);
-        job.getSkills().add(skill);
+        job.addSkill(skill);
         return "redirect:/app/jobs/" + job.getJobId();
     }
 
@@ -76,7 +76,7 @@ public class JobsController {
         final Skill skill = (Skill) sessionFactory.getCurrentSession().get(Skill.class, skillId);
         
         if ( removeSkill ) {
-            job.getSkills().remove(skill);
+            job.removeSkill(skill);
         }
         
         return "redirect:/app/jobs/" + job.getJobId();

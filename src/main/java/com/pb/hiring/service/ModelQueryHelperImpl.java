@@ -66,6 +66,13 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
 
     @Override
     @Transactional
+    public Criteria skillById(final Long skillId) {
+        return sessionFactory.getCurrentSession().createCriteria(Skill.class)
+            .add( Restrictions.idEq(skillId) );
+    }
+
+    @Override
+    @Transactional
     public Criteria ratingsByCandidateAndJob(final Long candidateId, final Long jobId) {
         return sessionFactory.getCurrentSession().createCriteria( Rating.class )
             .add( Restrictions.eq("job.jobId", jobId) )

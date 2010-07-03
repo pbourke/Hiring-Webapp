@@ -22,7 +22,7 @@ public class TestDataGenerator {
         Job j = new Job();
         j.setDescription("Description for the job");
         j.setTitle("Job Title " + jobCtr.incrementAndGet());
-        j.getSkills().add( skill() );
+        j.addSkill( skill() );
         sessionFactory.getCurrentSession().save(j);
         sessionFactory.getCurrentSession().flush();
         return j;

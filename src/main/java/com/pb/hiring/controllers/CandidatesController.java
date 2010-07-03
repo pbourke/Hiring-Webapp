@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
+import com.pb.hiring.model.Skill;
 import com.pb.hiring.service.ModelQueryHelper;
 
 @Controller
@@ -69,6 +67,7 @@ public class CandidatesController {
         final Candidate candidate = (Candidate) modelMap.get("candidate");
         final Job job = (Job) sessionFactory.getCurrentSession().get(Job.class, jobId);
         candidate.addJob(job);
+        sessionFactory.getCurrentSession().update(candidate);
         return "redirect:/app/candidates/"+candidate.getCandidateId();
     }
     
@@ -91,8 +90,18 @@ public class CandidatesController {
     }
 
     @Transactional
-    @RequestMapping(method=RequestMethod.POST, value="/candidates/{candidateId}/jobs/{jobId}/skills/{skillId}")
-    public String addRating(@PathVariable final Long candidateId, @PathVariable final Long jobId, @PathVariable final Long skillId, @RequestParam("ratingValue") final int ratingValue, @RequestParam("notes") final String notes) {
+    @RequestMapping(method=RequestMethod.POST, value="/candidates/{candidateId}/jobs/{jobId}/ratings")
+    public String addRating(@PathVariable final Long candidateId, @PathVariable final Long jobId, @RequestParam("skillId") final Long skillId, @RequestParam("ratingValue") final int ratingValue, @RequestParam("notes") final String notes) {
+        final Job job = (Job) modelQueryHelper.jobById(jobId).uniqueResult();
+        final Candidate candidate = (Candidate) modelQueryHelper.candidateById(candidateId).uniqueResult();
+        final Skill skill = (Skill) modelQueryHelper.skillById(skillId).uniqueResult();
+        
+        final Rating rating = new Rating(job, skill, candidate);
+        rating.setNotes(notes);
+        rating.setRating(ratingValue);
+        
+        sessionFactory.getCurrentSession().save(rating);
+                
         return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId;
     }
 }

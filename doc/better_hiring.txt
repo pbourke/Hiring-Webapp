@@ -64,5 +64,5 @@ x associate Skills with a Job(job id, skill id)
 x remove a Skill from a Job
 x hiring_online should not be a template database - can drop and create as instance of hiring_unit_test
 x add a Candidate(name) for a Job
-- assign a Rating(number) to a Skill for a Candidate,Job pair
+x assign a Rating(number) to a Skill for a Candidate,Job pair
 

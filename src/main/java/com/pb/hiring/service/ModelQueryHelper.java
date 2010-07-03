@@ -15,6 +15,7 @@ public interface ModelQueryHelper {
     Criteria jobById(Long jobId);
     
     Criteria allSkills();
+    Criteria skillById(Long skillId);
     
     Criteria ratingsByCandidateAndJob(Long candidateId, Long jobId);
 }

@@ -1,8 +1,11 @@
 package com.pb.hiring.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -14,9 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 /**
@@ -38,10 +41,9 @@ public class Candidate {
     private String email;
     
     @ManyToMany(cascade=CascadeType.PERSIST, targetEntity=Job.class)
-    @JoinTable(name="candidates_jobs",
+    @JoinTable(name="candidates_jobs", uniqueConstraints={@UniqueConstraint(columnNames={"candidate_id", "job_id"})},
             joinColumns=@JoinColumn(name="candidate_id"), inverseJoinColumns=@JoinColumn(name="job_id"))
-    @OrderBy("creationDate")
-    private List<Job> jobs = new ArrayList<Job>();
+    private Set<Job> jobs = new HashSet<Job>();
 
     @Basic
     @Column(name="creation_date", updatable=false, nullable=false)
@@ -78,7 +80,7 @@ public class Candidate {
     }
 
     public List<Job> getJobs() {
-        return jobs;
+        return Collections.unmodifiableList( new ArrayList(jobs) );
     }
     
     public void addJob(final Job job) {

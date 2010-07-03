@@ -1,8 +1,11 @@
 package com.pb.hiring.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -14,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -41,8 +43,7 @@ public class Job {
     @ManyToMany(cascade=CascadeType.PERSIST, targetEntity=Skill.class)
     @JoinTable(name="jobs_skills",
             joinColumns=@JoinColumn(name="job_id"), inverseJoinColumns=@JoinColumn(name="skill_id"))
-    @OrderBy("creationDate")
-    private List<Skill> skills = new ArrayList<Skill>();
+    private Set<Skill> skills = new HashSet<Skill>();
     
     @Basic
     @Column(name="creation_date", updatable=false, nullable=false)
@@ -77,9 +78,16 @@ public class Job {
     public Long getRecordVersionNumber() {
         return recordVersionNumber;
     }
-    
+        
     public List<Skill> getSkills() {
-        return skills;
+        return Collections.unmodifiableList( new ArrayList(skills) );
     }
-
+    
+    public void addSkill(final Skill s) {
+        skills.add(s);
+    }
+    
+    public boolean removeSkill(final Skill s) {
+        return skills.remove(s);
+    }
 }
