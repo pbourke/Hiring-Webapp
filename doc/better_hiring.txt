@@ -66,3 +66,14 @@ x hiring_online should not be a template database - can drop and create as insta
 x add a Candidate(name) for a Job
 x assign a Rating(number) to a Skill for a Candidate,Job pair
 
+Phase 2: Expanding the core - multi user, interviews
+- add a user(name, email)
+- switch users via a login/change user page
+- maintain the currently logged in user (spring request-scoped bean)
+- associate a user with Job, Skill and Candidate as 'creator'
+- Create an interview(job, candidate, date, location/phone number, notes) assigned to a particular user for a particular job/candidate - create this from the candidate/job page
+- assign skills to the interview from among the skills for the particular job (ie: for this interview, Bob should cover Java Programming, OO Design, etc)
+- execute the interview: provide general feedback and a rating for each skill assigned to the interview - you can skip a rating if it wasn't applicable
+- display the interviews on the candidate detail page and the candidate/job page
+
+
