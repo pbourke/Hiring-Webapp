@@ -80,7 +80,9 @@ public class Job {
     }
         
     public List<Skill> getSkills() {
-        return Collections.unmodifiableList( new ArrayList(skills) );
+        final List<Skill> skillsList = new ArrayList<Skill>(skills);
+        Collections.sort(skillsList);
+        return Collections.unmodifiableList( skillsList );
     }
     
     public void addSkill(final Skill s) {

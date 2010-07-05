@@ -20,7 +20,7 @@ import javax.persistence.Version;
 @Entity
 @Table(name="skills")
 @SequenceGenerator(name="skill_id_seq", sequenceName="skill_id_seq", allocationSize=1)
-public class Skill {
+public class Skill implements Comparable<Skill> {
     @Id
     @Column(name="skill_id")
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="skill_id_seq")
@@ -61,5 +61,10 @@ public class Skill {
 
     public Long getRecordVersionNumber() {
         return recordVersionNumber;
+    }
+    
+    @Override
+    public int compareTo(final Skill that) {
+        return this.getTitle().compareToIgnoreCase( that.getTitle() );
     }
 }
