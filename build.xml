@@ -75,7 +75,7 @@
   </target>
 	
 	<target name="test" depends="compile">
-		<javac srcdir="${src.test.java}" destdir="${build.test.dir}" classpathref="test.path" />
+		<javac srcdir="${src.test.java}" destdir="${build.test.dir}" classpathref="test.path" debug="true"/>
 		
 		<!-- Copy non-java resource files src/test/java to the build directory -->
 		<copy todir="${build.test.dir}">
