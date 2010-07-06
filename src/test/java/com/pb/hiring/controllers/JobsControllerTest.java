@@ -109,7 +109,7 @@ public class JobsControllerTest {
         final Job jobFromMap = (Job) modelMap.get("job");
         assertEquals( job.getJobId(), jobFromMap.getJobId() );
         assertEquals( 2, jobFromMap.getSkills().size() );
-        assertEquals(skill.getSkillId(), jobFromMap.getSkills().get(1).getSkillId());
+        assertTrue( jobFromMap.getSkills().contains(skill) );
     }
     
     @Test
