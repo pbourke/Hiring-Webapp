@@ -41,6 +41,7 @@
 				<value>com.pb.hiring.model.Skill</value>
 				<value>com.pb.hiring.model.Candidate</value>
 				<value>com.pb.hiring.model.Rating</value>
+				<value>com.pb.hiring.model.User</value>
 			</list>
 		</property>
 	</bean>
