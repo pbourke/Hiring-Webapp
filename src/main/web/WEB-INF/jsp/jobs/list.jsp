@@ -11,6 +11,7 @@
 <body>
 
 <ul>
+	<li><a href="/app/users">Users</a></li>
 	<li>Jobs</li>
 	<li><a href="/app/skills">Skills</a></li>
 	<li><a href="/app/candidates">Candidates</a></li>

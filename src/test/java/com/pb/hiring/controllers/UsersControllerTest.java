@@ -42,6 +42,8 @@ public class UsersControllerTest {
         final ModelMap modelMap = new ModelMap();
         assertEquals("users/list", usersController.listUsers(modelMap));
         assertTrue( modelMap.containsKey("users") );
+        assertTrue( "ModelMap contains new user command object", modelMap.containsKey("newUser") );
+        assertTrue( "newUser is-a User", modelMap.get("newUser") instanceof User);
         
         final List<User> users = (List<User>) modelMap.get("users");
         
@@ -64,5 +66,23 @@ public class UsersControllerTest {
         assertEquals("test@example.com", u2.getEmail());
         assertEquals("Test Person", u2.getName());
         assertTrue(u2.getPasswordDigest() != null);
+        
+        assertEquals(1, modelQueryHelper.allUsers().list().size());
     }
+    
+    @Test(expected=Exception.class)
+    public void testAddUserNoEmail() {
+        assertTrue( "users list is empty", modelQueryHelper.allUsers().list().isEmpty() );
+        final User user = new User();
+        user.setName("Test Person");
+        user.setPasswordPlaintext("password");
+
+        try {
+            usersController.addUser(user);
+            fail("Exception expected");
+        } finally {
+            assertTrue( "users list is empty", modelQueryHelper.allUsers().list().isEmpty() );            
+        }
+    }
+
 }

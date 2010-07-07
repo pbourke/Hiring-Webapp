@@ -72,6 +72,10 @@ public class User {
     public void setPasswordPlaintext(final String password) {
         passwordDigest = computePasswordDigest(password);
     }
+    public String getPasswordPlaintext() {
+        // included for compatibility with Spring MVC forms - not needed otherwise
+        return "";
+    }
 
     public Date getCreationDate() {
         return creationDate;

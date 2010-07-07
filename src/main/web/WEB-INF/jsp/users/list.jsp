@@ -11,39 +11,44 @@
 <body>
 
 <ul>
-	<li><a href="/app/users">Users</a></li>
+	<li>Users</li>
 	<li><a href="/app/jobs">Jobs</a></li>
-	<li>Skills</li>
+	<li><a href="/app/users">Skills</a></li>
 	<li><a href="/app/candidates">Candidates</a></li>
 </ul>
 
-<h2>Add a Skill</h2>
-<form:form commandName="newSkill" method="POST">
+<h2>Add a new User</h2>
+<form:form commandName="newUser" method="POST">
 	<p>
-		<form:label path="title">Title</form:label><br/>
-		<form:input path="title" size="50"/>
-	</p>
-	
-	<p>
-		<form:label path="description">Description</form:label><br/>
-		<form:textarea path="description" cols="50" rows="10" />
+		<form:label path="name">Name</form:label><br/>
+		<form:input path="name" size="50"/>
 	</p>
 	<p>
-		<input type="submit" value="Add Skill"/>
+		<form:label path="email">Email</form:label><br/>
+		<form:input path="email" size="50"/>
+	</p>	
+	<p>
+		<form:label path="passwordPlaintext">Password</form:label><br/>
+		<form:input path="passwordPlaintext" size="50"/>
+	</p>	
+	<p>
+		<input type="submit" value="Add User"/>
 	</p>
 </form:form>
 
-<h2>Skills List</h2>
+<h2>User List</h2>
 <table>
 <thead>
 	<tr>
-		<th>Title</th>
+		<th>Name</th>
+		<th>Email</th>
 	</tr>
 </thead>
 <tbody>
-<c:forEach items="${skills}" var="skill">
+<c:forEach items="${users}" var="u">
 <tr>
-	<td><c:out value="${skill.title}" /></td>
+	<td><c:out value="${u.name}" /></td>
+	<td><c:out value="${u.email}" /></td>
 </tr>
 </c:forEach>
 </tbody>

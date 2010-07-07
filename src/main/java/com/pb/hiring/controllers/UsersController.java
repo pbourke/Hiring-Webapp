@@ -23,6 +23,7 @@ public class UsersController {
     @RequestMapping(method=RequestMethod.GET, value="/users")
     public String listUsers(final ModelMap modelMap) {
         modelMap.put("users", modelQueryHelper.allUsers().list());
+        modelMap.put("newUser", new User());
         return "users/list";
     }
     
