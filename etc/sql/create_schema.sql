@@ -165,6 +165,49 @@ CREATE TABLE skills (
 ALTER TABLE public.skills OWNER TO postgres;
 
 --
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE user_id_seq
+    START WITH 150
+    INCREMENT BY 5
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 25;
+
+
+ALTER TABLE public.user_id_seq OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    user_id bigint NOT NULL,
+    email character varying(512) NOT NULL,
+    password_digest character varying(256) NOT NULL,
+    name character varying,
+    creation_date timestamp without time zone NOT NULL,
+    record_version_number bigint NOT NULL,
+    last_updated_date timestamp without time zone NOT NULL,
+    CONSTRAINT users_ck_email CHECK (((email)::text ~ '^[^ 	
+]{1,}@[^ 	
+]{2,}$'::text)),
+    CONSTRAINT users_ck_last_updated_date CHECK ((last_updated_date >= creation_date)),
+    CONSTRAINT users_ck_password_digest CHECK (((password_digest)::text ~ '^[a-f0-9]{32}$'::text))
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: CONSTRAINT users_ck_password_digest ON users; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON CONSTRAINT users_ck_password_digest ON users IS 'Check that password_digest column is a valid MD5 digest in HEX string format';
+
+
+--
 -- Name: candidates_jobs_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -221,6 +264,14 @@ ALTER TABLE ONLY skills
 
 
 --
+-- Name: users_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pk PRIMARY KEY (user_id);
+
+
+--
 -- Name: fki_jobs_skills_fk_skills; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -239,6 +290,13 @@ CREATE INDEX idx_jobs_creation_date ON jobs USING btree (creation_date);
 --
 
 CREATE UNIQUE INDEX idx_skills_title_case_insensitive_uniq ON skills USING btree (lower((title)::text));
+
+
+--
+-- Name: users_idx_case_insensitive_unique_email; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_idx_case_insensitive_unique_email ON users USING btree (lower((email)::text));
 
 
 --
@@ -421,6 +479,26 @@ REVOKE ALL ON TABLE skills FROM PUBLIC;
 REVOKE ALL ON TABLE skills FROM postgres;
 GRANT ALL ON TABLE skills TO postgres;
 GRANT SELECT,INSERT,UPDATE ON TABLE skills TO app;
+
+
+--
+-- Name: user_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON SEQUENCE user_id_seq FROM PUBLIC;
+REVOKE ALL ON SEQUENCE user_id_seq FROM postgres;
+GRANT ALL ON SEQUENCE user_id_seq TO postgres;
+GRANT ALL ON SEQUENCE user_id_seq TO app;
+
+
+--
+-- Name: users; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE users FROM PUBLIC;
+REVOKE ALL ON TABLE users FROM postgres;
+GRANT ALL ON TABLE users TO postgres;
+GRANT SELECT,INSERT,UPDATE ON TABLE users TO app;
 
 
 --
