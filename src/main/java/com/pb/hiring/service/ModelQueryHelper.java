@@ -18,4 +18,7 @@ public interface ModelQueryHelper {
     Criteria skillById(Long skillId);
     
     Criteria ratingsByCandidateAndJob(Long candidateId, Long jobId);
+    
+    Criteria allUsers();
+    Criteria userByEmail(String email);
 }

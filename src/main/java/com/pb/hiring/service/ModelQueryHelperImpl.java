@@ -16,6 +16,7 @@ import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.model.User;
 
 public class ModelQueryHelperImpl implements ModelQueryHelper {
     
@@ -77,5 +78,18 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
         return sessionFactory.getCurrentSession().createCriteria( Rating.class )
             .add( Restrictions.eq("job.jobId", jobId) )
             .add( Restrictions.eq("candidate.candidateId", candidateId) );
+    }
+
+    @Override
+    @Transactional
+    public Criteria allUsers() {
+        return sessionFactory.getCurrentSession().createCriteria( User.class )
+            .addOrder( Order.asc("name").ignoreCase() );
+    }
+
+    @Override
+    public Criteria userByEmail(final String email) {
+        return sessionFactory.getCurrentSession().createCriteria(User.class)
+            .add( Restrictions.eq("email", email) );
     }
 }
