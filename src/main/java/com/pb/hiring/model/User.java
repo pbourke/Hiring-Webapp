@@ -76,6 +76,9 @@ public class User {
         // included for compatibility with Spring MVC forms - not needed otherwise
         return "";
     }
+    public boolean passwordMatches(final String plaintextPassword) {
+        return getPasswordDigest().equals( computePasswordDigest(plaintextPassword) );
+    }
 
     public Date getCreationDate() {
         return creationDate;

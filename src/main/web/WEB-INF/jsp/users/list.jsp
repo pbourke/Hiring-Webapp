@@ -10,6 +10,8 @@
 </head>
 <body>
 
+<c:import url="/app/login/status" />
+
 <ul>
 	<li>Users</li>
 	<li><a href="/app/jobs">Jobs</a></li>
