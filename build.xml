@@ -10,6 +10,8 @@
 	<property name="build.war.dir" location="${build.dir}/war" />
 	<property name="build.test.dir" location="${build.dir}/test-classes" />
 	<property name="report.tests.dir" location="${build.dir}/test-results" />
+	<property name="report.dir" location="${build.dir}/reports" />
+	<property name="report.ivy.dir" location="${report.dir}/ivy"/>
 	<property name="lib.resolved.dir" location="${build.dir}/lib" />	
 	<property name="lib.bootstrap.dir" location="lib/bootstrap" />
 	<property name="dist" location="${build.dir}/dist" />
@@ -93,5 +95,9 @@
 			<report todir="${report.tests.dir}"/>
 		</junitreport>
 		<fail if="tests.failed"/>
+	</target>
+	
+	<target name="report" depends="compile">
+		<ivy:report todir="${report.ivy.dir}" conf="*" />
 	</target>
 </project>

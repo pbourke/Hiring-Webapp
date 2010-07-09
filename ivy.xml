@@ -11,9 +11,11 @@
         	<conf name="test" description="Test dependencies" extends="runtime"/>
         </configurations>
         <dependencies>
-        	<dependency org="org.springframework" name="org.springframework.orm" rev="3.0.2.RELEASE" conf="compile->compile,hibernate,provided;runtime" />
-        	<dependency org="org.springframework" name="org.springframework.web.servlet" rev="3.0.2.RELEASE" conf="compile->compile,provided;runtime"/>
-        	<dependency org="org.springframework" name="org.springframework.test" rev="3.0.2.RELEASE" conf="test->compile,provided,runtime" />
+        	<dependency org="org.springframework" name="org.springframework.orm" rev="3.0.3.RELEASE" conf="compile->compile,hibernate,provided;runtime" />
+        	<dependency org="org.springframework" name="org.springframework.web.servlet" rev="3.0.3.RELEASE" conf="compile->compile,provided;runtime"/>
+        	<dependency org="org.springframework" name="org.springframework.test" rev="3.0.3.RELEASE" conf="test->compile,provided,runtime" />
+        	<dependency org="org.springframework.security" name="org.springframework.security.web" rev="3.0.2.RELEASE" conf="compile->compile,provided;runtime" />
+        	<dependency org="org.springframework.security" name="org.springframework.security.taglibs" rev="3.0.2.RELEASE" conf="runtime" />
         	<dependency org="org.junit" name="com.springsource.org.junit" rev="4.8.1" conf="test->runtime" />
         	<dependency org="javax.transaction" name="com.springsource.javax.transaction" rev="1.1.0" conf="compile->compile,provided;runtime->provided"/>
         	<dependency org="javax.persistence" name="com.springsource.javax.persistence" rev="1.0.0" conf="compile->compile,provided;runtime->provided"/>
@@ -22,6 +24,17 @@
         	<dependency org="org.hibernate" name="com.springsource.org.hibernate.annotations" rev="3.4.0.GA" conf="compile->compile,provided;runtime" />        	        	
 			<dependency org="org.slf4j" name="com.springsource.slf4j.jcl" rev="1.5.6" conf="compile->compile,provided;runtime" />
         	<conflict org="org.slf4j" module="com.springsource.slf4j.api" rev="1.5.6" />
+        	
+        	<!-- The following conflicts were created by Spring Security 3.0.2.RELEASE -->
+        	<conflict org="javax.servlet" module="com.springsource.javax.servlet" rev="2.5.0" />
+        	<conflict org="org.springframework" module="org.springframework.aop" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.asm" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.beans" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.context" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.core" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.expression" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.oxm" rev="3.0.3.RELEASE" />
+        	<conflict org="org.springframework" module="org.springframework.web" rev="3.0.3.RELEASE" />
         </dependencies>
         
 </ivy-module>
