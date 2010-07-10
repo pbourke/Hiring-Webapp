@@ -1,21 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<title>View Job ${job.jobId}</title>
-</head>
-<body>
 
-<ul>
-	<li><a href="/app/users">Users</a></li>
-	<li><a href="/app/jobs">Jobs</a></li>
-	<li><a href="/app/skills">Skills</a></li>
-	<li><a href="/app/candidates">Candidates</a></li>	
-</ul>
+<c:import url="/app/layout/header">
+	<c:param name="title">Jobs / <c:out value="${job.title}" /></c:param>
+</c:import>
 
 <h2><c:out value="${job.title}" /> (id# ${job.jobId})</h2>
 <p><strong>Description</strong><br/><c:out value="${job.description}" /></p>
@@ -38,5 +28,5 @@
 		<c:out value="${skill.title}"/></li>
 </c:forEach>
 </ul>
-</body>
-</html>
+
+<c:import url="/app/layout/footer" />
