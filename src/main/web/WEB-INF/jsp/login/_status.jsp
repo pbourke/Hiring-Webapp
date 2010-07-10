@@ -5,7 +5,7 @@
 
 <c:choose>
 <c:when test="${userRequestContext.loggedIn}">
-	<p><strong>Logged in as <c:out value="${userRequestContext.user.email}" /></strong></p>
+	<p><strong>Logged in as <c:out value="${userRequestContext.userEmail}" /></strong> | <a href="/j_spring_security_logout" >Sign Out</a></p>
 </c:when>
 <c:otherwise>
 	<p><strong>Not logged in</strong> | <a href="/app/login">Sign In</a></p>

@@ -68,7 +68,7 @@ x assign a Rating(number) to a Skill for a Candidate,Job pair
 
 Phase 2: Expanding the core - multi user, interviews
 x add a user(name, email)
-- switch users via a login/change user page
+x switch users via a login/change user page
 - maintain the currently logged in user (spring request-scoped bean)
 - associate a user with Job, Skill and Candidate as 'creator'
 - Create an interview(job, candidate, date, location/phone number, notes) assigned to a particular user for a particular job/candidate - create this from the candidate/job page

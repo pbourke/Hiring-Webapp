@@ -16,6 +16,7 @@
         	<dependency org="org.springframework" name="org.springframework.test" rev="3.0.3.RELEASE" conf="test->compile,provided,runtime" />
         	<dependency org="org.springframework.security" name="org.springframework.security.web" rev="3.0.2.RELEASE" conf="compile->compile,provided;runtime" />
         	<dependency org="org.springframework.security" name="org.springframework.security.taglibs" rev="3.0.2.RELEASE" conf="runtime" />
+        	<dependency org="org.springframework.security" name="org.springframework.security.config" rev="3.0.2.RELEASE" conf="runtime" />
         	<dependency org="org.junit" name="com.springsource.org.junit" rev="4.8.1" conf="test->runtime" />
         	<dependency org="javax.transaction" name="com.springsource.javax.transaction" rev="1.1.0" conf="compile->compile,provided;runtime->provided"/>
         	<dependency org="javax.persistence" name="com.springsource.javax.persistence" rev="1.0.0" conf="compile->compile,provided;runtime->provided"/>

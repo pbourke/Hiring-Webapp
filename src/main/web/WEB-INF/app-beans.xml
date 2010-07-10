@@ -17,10 +17,12 @@
 
 	<tx:annotation-driven/>
 
-	<bean id="userRequestContext" class="com.pb.hiring.controllers.util.UserRequestContext" scope="request">
-		<aop:scoped-proxy />
-	</bean>	
-
+	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors"> 
+			<bean class="com.pb.hiring.controllers.util.UserRequestContextHandlerInterceptor" />
+		</property> 
+	</bean>
+	
     <context:component-scan base-package="com.pb.hiring.controllers"/>
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

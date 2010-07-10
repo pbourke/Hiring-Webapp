@@ -1,7 +1,5 @@
 package com.pb.hiring.controllers.util;
 
-import com.pb.hiring.model.User;
-
 /**
  * Request-scoped bean that holds objects relevant to the current request,
  * including the logged-in user.
@@ -9,11 +7,17 @@ import com.pb.hiring.model.User;
  * @author pbourke
  */
 public class UserRequestContext {
-    public User getUser() {
-        return null;
+    private String email;
+    
+    public String getUserEmail() {
+        return email;
+    }
+    
+    protected void setUserEmail(final String s) {
+        email = s;
     }
     
     public boolean isLoggedIn() {
-        return getUser() != null;
+        return getUserEmail() != null;
     }
 }

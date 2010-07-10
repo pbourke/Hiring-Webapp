@@ -88,8 +88,15 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
     }
 
     @Override
+    @Transactional
     public Criteria userByEmail(final String email) {
         return sessionFactory.getCurrentSession().createCriteria(User.class)
             .add( Restrictions.eq("email", email) );
+    }
+
+    @Override
+    @Transactional
+    public User userByEmailAsUser(String email) {
+        return (User) userByEmail(email).uniqueResult();
     }
 }
