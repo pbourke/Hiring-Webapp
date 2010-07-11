@@ -59,6 +59,37 @@ CREATE TABLE candidates_jobs (
 ALTER TABLE public.candidates_jobs OWNER TO postgres;
 
 --
+-- Name: interview_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE interview_id_seq
+    START WITH 175
+    INCREMENT BY 5
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 25;
+
+
+ALTER TABLE public.interview_id_seq OWNER TO postgres;
+
+--
+-- Name: interviews; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE interviews (
+    interview_id bigint NOT NULL,
+    job_id bigint NOT NULL,
+    candidate_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    notes text,
+    location character varying(512),
+    start_time timestamp without time zone
+);
+
+
+ALTER TABLE public.interviews OWNER TO postgres;
+
+--
 -- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -241,6 +272,14 @@ ALTER TABLE ONLY jobs_skills
 
 
 --
+-- Name: pk_interviews; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY interviews
+    ADD CONSTRAINT pk_interviews PRIMARY KEY (interview_id);
+
+
+--
 -- Name: ratings_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -314,6 +353,38 @@ ALTER TABLE ONLY candidates_jobs
 
 ALTER TABLE ONLY candidates_jobs
     ADD CONSTRAINT candidates_jobs_fk_job_id FOREIGN KEY (job_id) REFERENCES jobs(job_id);
+
+
+--
+-- Name: interviews_fk_candidates; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY interviews
+    ADD CONSTRAINT interviews_fk_candidates FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id);
+
+
+--
+-- Name: interviews_fk_candidates_jobs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY interviews
+    ADD CONSTRAINT interviews_fk_candidates_jobs FOREIGN KEY (candidate_id, job_id) REFERENCES candidates_jobs(candidate_id, job_id);
+
+
+--
+-- Name: interviews_fk_jobs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY interviews
+    ADD CONSTRAINT interviews_fk_jobs FOREIGN KEY (job_id) REFERENCES jobs(job_id);
+
+
+--
+-- Name: interviews_fk_users; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY interviews
+    ADD CONSTRAINT interviews_fk_users FOREIGN KEY (user_id) REFERENCES users(user_id);
 
 
 --
@@ -418,6 +489,26 @@ REVOKE ALL ON TABLE candidates_jobs FROM PUBLIC;
 REVOKE ALL ON TABLE candidates_jobs FROM postgres;
 GRANT ALL ON TABLE candidates_jobs TO postgres;
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE candidates_jobs TO app;
+
+
+--
+-- Name: interview_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON SEQUENCE interview_id_seq FROM PUBLIC;
+REVOKE ALL ON SEQUENCE interview_id_seq FROM postgres;
+GRANT ALL ON SEQUENCE interview_id_seq TO postgres;
+GRANT ALL ON SEQUENCE interview_id_seq TO app;
+
+
+--
+-- Name: interviews; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE interviews FROM PUBLIC;
+REVOKE ALL ON TABLE interviews FROM postgres;
+GRANT ALL ON TABLE interviews TO postgres;
+GRANT SELECT,INSERT,UPDATE ON TABLE interviews TO app;
 
 
 --
