@@ -5,3 +5,7 @@ cd /Users/pbourke/Documents/springmvc-test/TestWebApp; ant clean dist; cd -; rm 
 # drop online db and recreate from unit test db:
 drop database hiring_online;
 create database hiring_online with owner=pbourke template=hiring_unit_test;
+
+
+# dump unit test db to the create script
+/Applications/pgAdmin3.app/Contents/SharedSupport/pg_dump hiring_unit_test -s > etc/sql/create_schema.sql

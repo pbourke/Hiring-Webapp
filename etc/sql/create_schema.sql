@@ -128,6 +128,7 @@ CREATE TABLE ratings (
     creation_date timestamp without time zone DEFAULT now() NOT NULL,
     record_version_number bigint NOT NULL,
     rating_id bigint NOT NULL,
+    user_id bigint NOT NULL,
     CONSTRAINT ratings_ck_rating CHECK (((rating >= 1) AND (rating <= 5)))
 );
 
@@ -369,6 +370,14 @@ ALTER TABLE ONLY ratings
 
 ALTER TABLE ONLY ratings
     ADD CONSTRAINT ratings_fk_skills FOREIGN KEY (skill_id) REFERENCES skills(skill_id);
+
+
+--
+-- Name: ratings_fk_users; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_fk_users FOREIGN KEY (user_id) REFERENCES users(user_id);
 
 
 --

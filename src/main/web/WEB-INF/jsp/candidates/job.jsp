@@ -36,7 +36,7 @@
 <ul>
 <c:forEach items="${ratings}" var="rating">
 	<li>
-		<c:out value="${rating.skill.title}" /> rating ${rating.rating} / 5<p><c:out value="${rating.notes}" /></p>
+		<c:out value="${rating.skill.title}" /> rating ${rating.rating} / 5 (<c:out value="${rating.user.name}" />)<p><c:out value="${rating.notes}" /></p>
 	</li>
 </c:forEach>
 </ul>

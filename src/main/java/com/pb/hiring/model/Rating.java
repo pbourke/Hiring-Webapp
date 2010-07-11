@@ -45,6 +45,10 @@ public class Rating implements Serializable {
     @JoinColumn(name="candidate_id")
     private Candidate candidate;
     
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name="user_id")
+    private User user;
+    
     private int rating = 1;
     
     private String notes;
@@ -57,14 +61,15 @@ public class Rating implements Serializable {
     @Column(name="record_version_number")
     private Long recordVersionNumber;
     
-    public Rating(final Job j, final Skill s, final Candidate c) {
+    public Rating(final Job j, final Skill s, final Candidate c, final User u) {
         this();
-        if ( null == j || null == s || null == c ) {
-            throw new IllegalArgumentException( format("None of job=%s, skill=%s or candidate=%s may be null", j, s, c) );
+        if ( null == j || null == s || null == c || null == u ) {
+            throw new IllegalArgumentException( format("None of job=%s, skill=%s, candidate=%s or user=%s may be null", j, s, c, u) );
         }
         job = j;
         skill = s;
         candidate = c;
+        user = u;
     }
     
     private Rating() {
@@ -85,6 +90,10 @@ public class Rating implements Serializable {
 
     public Candidate getCandidate() {
         return candidate;
+    }
+    
+    public User getUser() {
+        return user;
     }
 
     public int getRating() {

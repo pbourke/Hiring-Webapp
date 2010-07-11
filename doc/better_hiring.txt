@@ -70,7 +70,7 @@ Phase 2: Expanding the core - multi user, interviews
 x add a user(name, email)
 x switch users via a login/change user page
 x maintain the currently logged in user (spring request-scoped bean)
-- associate a user with Job, Skill and Candidate as 'creator'
+x associate a user with a Rating as creator
 - Create an interview(job, candidate, date, location/phone number, notes) assigned to a particular user for a particular job/candidate - create this from the candidate/job page
 - assign skills to the interview from among the skills for the particular job (ie: for this interview, Bob should cover Java Programming, OO Design, etc)
 - execute the interview: provide general feedback and a rating for each skill assigned to the interview - you can skip a rating if it wasn't applicable

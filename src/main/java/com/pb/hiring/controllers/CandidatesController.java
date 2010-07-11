@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pb.hiring.controllers.util.UserRequestContext;
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.model.User;
 import com.pb.hiring.service.ModelQueryHelper;
 
 @Controller
@@ -29,6 +31,9 @@ public class CandidatesController {
     
     @Autowired
     private ModelQueryHelper modelQueryHelper;
+    
+    @Autowired
+    private UserRequestContext userRequestContext;
 
     @Transactional
     @RequestMapping(method=RequestMethod.GET, value="/candidates")
@@ -95,8 +100,9 @@ public class CandidatesController {
         final Job job = (Job) modelQueryHelper.jobById(jobId).uniqueResult();
         final Candidate candidate = (Candidate) modelQueryHelper.candidateById(candidateId).uniqueResult();
         final Skill skill = (Skill) modelQueryHelper.skillById(skillId).uniqueResult();
+        final User user = (User) modelQueryHelper.userByEmail(userRequestContext.getUserEmail()).uniqueResult();
         
-        final Rating rating = new Rating(job, skill, candidate);
+        final Rating rating = new Rating(job, skill, candidate, user);
         rating.setNotes(notes);
         rating.setRating(ratingValue);
         

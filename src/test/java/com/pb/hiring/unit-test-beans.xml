@@ -26,4 +26,10 @@
 		<property name="password" value="app" />
 	</bean>
 	
+	<bean id="userRequestContext" class="com.pb.hiring.controllers.util.TestUserRequestContext">
+		<description>
+			In the running application, this is a request-scoped bean. For unit tests,
+			we make it a plain-old bean that can be updated on a test-by-test basis.
+		</description>
+	</bean>	
 </beans>

@@ -1,8 +1,8 @@
 package com.pb.hiring.controllers;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -20,10 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import com.pb.hiring.TestDataGenerator;
+import com.pb.hiring.controllers.util.TestUserRequestContext;
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.model.User;
 import com.pb.hiring.service.ModelQueryHelper;
 
 @Transactional
@@ -42,6 +44,9 @@ public class CandidatesControllerTest {
     
     @Autowired(required=true)
     private SessionFactory sessionFactory;
+    
+    @Autowired(required=true)
+    private TestUserRequestContext testUserRequestContext;
     
     @BeforeClass
     public static void setUpLog4J() {
@@ -84,8 +89,9 @@ public class CandidatesControllerTest {
     public void testGetCandidateJobPageOneRating() {
         final Job j = testData.job();
         final Candidate c = testData.candidate(j);
-        final Skill s = j.getSkills().get(0);        
-        final Rating r = testData.rating(j, c, s, 2);
+        final Skill s = j.getSkills().get(0);
+        final User u = testData.user();
+        final Rating r = testData.rating(j, c, s, u, 2);
         
         final ModelMap modelMap = new ModelMap();
         assertEquals( "candidates/job", candidatesController.getCandidateJobPage(c.getCandidateId(), j.getJobId(), modelMap) );
@@ -96,6 +102,9 @@ public class CandidatesControllerTest {
     
     @Test
     public void testAddRating() {
+        final User u = testData.user();
+        testUserRequestContext.setUserEmail( u.getEmail() );
+
         final Job j = testData.job();
         final Candidate c = testData.candidate(j);
         final Skill s = j.getSkills().get(0);
@@ -117,10 +126,14 @@ public class CandidatesControllerTest {
         assertEquals("Notes were assigned", "some notes", r.getNotes());
         assertEquals("rating value was assigned", 3, r.getRating());
         assertNotNull("creationDate is null", r.getCreationDate());
+        assertEquals("User was assigned", u.getEmail(), r.getUser().getEmail());
     }
     
     @Test
     public void testAddRatingFollowedByAddJob() {
+        final User u = testData.user();
+        testUserRequestContext.setUserEmail( u.getEmail() );
+
         final Job j1 = testData.job();
         final Candidate c = testData.candidate(j1);
         candidatesController.addRating(c.getCandidateId(), j1.getJobId(), j1.getSkills().get(0).getSkillId(), 2, "test");

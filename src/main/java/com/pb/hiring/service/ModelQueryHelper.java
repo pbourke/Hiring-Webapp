@@ -2,8 +2,6 @@ package com.pb.hiring.service;
 
 import org.hibernate.Criteria;
 
-import com.pb.hiring.model.User;
-
 /**
  * Provides helper methods for constructing queries against model objects.
  * 
@@ -23,5 +21,4 @@ public interface ModelQueryHelper {
     
     Criteria allUsers();
     Criteria userByEmail(String email);
-    User userByEmailAsUser(String email);
 }

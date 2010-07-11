@@ -9,6 +9,7 @@ import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.model.User;
 
 public class TestDataGenerator {
     @Autowired
@@ -17,6 +18,7 @@ public class TestDataGenerator {
     private final AtomicInteger skillCtr = new AtomicInteger(0);
     private final AtomicInteger jobCtr = new AtomicInteger(0);
     private final AtomicInteger candidateCtr = new AtomicInteger(0);
+    private final AtomicInteger userCtr = new AtomicInteger(0);
     
     public Job job() {
         Job j = new Job();
@@ -39,8 +41,8 @@ public class TestDataGenerator {
     public Candidate candidate() {
         final int seqNum = candidateCtr.incrementAndGet();
         Candidate c = new Candidate();
-        c.setEmail("person"+seqNum+"@example.com");
-        c.setName("Person " + seqNum);
+        c.setEmail("candidate"+seqNum+"@example.com");
+        c.setName("Candidate " + seqNum);
         sessionFactory.getCurrentSession().save(c);
         return c;
     }
@@ -53,8 +55,18 @@ public class TestDataGenerator {
         return c;
     }
     
-    public Rating rating(final Job j, final Candidate c, final Skill s, int ratingVal) {
-        final Rating rating = new Rating(j, s, c);
+    public User user() {
+        final int seqNum = userCtr.incrementAndGet();
+        User u = new User();
+        u.setEmail("user" + seqNum + "@acme.com");
+        u.setName("User " + seqNum);
+        u.setPasswordPlaintext("password");
+        sessionFactory.getCurrentSession().save(u);
+        return u;
+    }
+    
+    public Rating rating(final Job j, final Candidate c, final Skill s, final User u, int ratingVal) {
+        final Rating rating = new Rating(j, s, c, u);
         rating.setRating(ratingVal);
         rating.setNotes("Rating notes");
         sessionFactory.getCurrentSession().save(rating);
