@@ -83,7 +83,9 @@ CREATE TABLE interviews (
     user_id bigint NOT NULL,
     notes text,
     location character varying(512),
-    start_time timestamp without time zone
+    start_time timestamp without time zone,
+    creation_date timestamp with time zone DEFAULT now() NOT NULL,
+    record_version_number bigint NOT NULL
 );
 
 
@@ -316,6 +318,20 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX fki_jobs_skills_fk_skills ON jobs_skills USING btree (skill_id);
+
+
+--
+-- Name: idx_candidates_lowercase_unique_email; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_candidates_lowercase_unique_email ON candidates USING btree (lower((email)::text));
+
+
+--
+-- Name: idx_candidates_unique_email; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX idx_candidates_unique_email ON candidates USING btree (email);
 
 
 --
