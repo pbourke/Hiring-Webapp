@@ -1,11 +1,13 @@
 package com.pb.hiring;
 
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pb.hiring.model.Candidate;
+import com.pb.hiring.model.Interview;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
@@ -73,4 +75,9 @@ public class TestDataGenerator {
         return rating;
     }
     
+    public Interview interview(final Job j, final Candidate c, final User interviewer) {
+        final Interview interview = new Interview(j, c, interviewer, new Date(), "Conference Room");
+        sessionFactory.getCurrentSession().save(interview);
+        return interview;
+    }
 }

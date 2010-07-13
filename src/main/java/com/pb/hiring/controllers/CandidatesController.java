@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pb.hiring.controllers.util.UserRequestContext;
 import com.pb.hiring.model.Candidate;
+import com.pb.hiring.model.Interview;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
@@ -90,6 +91,10 @@ public class CandidatesController {
         // retrieve the ratings and add to model
         final List<Rating> ratings = modelQueryHelper.ratingsByCandidateAndJob(candidateId, jobId).list();
         modelMap.addAttribute("ratings", ratings);
+        
+        // retrieve interviews and add to model
+        final List<Interview> interviews = modelQueryHelper.interviewsByCandidateAndJob(candidateId, jobId).list();
+        modelMap.addAttribute("interviews", interviews);
         
         return "candidates/job";
     }

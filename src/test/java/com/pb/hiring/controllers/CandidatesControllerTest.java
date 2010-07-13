@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import com.pb.hiring.TestDataGenerator;
 import com.pb.hiring.controllers.util.TestUserRequestContext;
 import com.pb.hiring.model.Candidate;
+import com.pb.hiring.model.Interview;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
@@ -98,6 +99,20 @@ public class CandidatesControllerTest {
         assertEquals( "job was added to model map", j.getJobId(), ((Job)modelMap.get("job")).getJobId() );
         assertEquals( "Ratings list has 1 item", 1, ((List<Rating>)modelMap.get("ratings")).size() );
         assertEquals( "correct rating was returned", r, ((List<Rating>)modelMap.get("ratings")).get(0) );
+    }
+    
+    @Test
+    public void testGetCandidateJobPageOneInterview() {
+        final Job j = testData.job();
+        final Candidate c = testData.candidate(j);
+        final User u = testData.user();
+        final Interview i = testData.interview(j, c, u);
+        final ModelMap modelMap = new ModelMap();
+        assertEquals("candidates/job", candidatesController.getCandidateJobPage(c.getCandidateId(), j.getJobId(), modelMap) );
+        assertEquals( "job was added to model map", j.getJobId(), ((Job)modelMap.get("job")).getJobId() );
+        assertTrue( "interviews was added to model map", modelMap.containsAttribute("interviews") );
+        assertEquals( "interviews size was correct", 1, ((List<Interview>)modelMap.get("interviews")).size() );
+        assertEquals( "interviews was set correctly", i, ((List<Interview>)modelMap.get("interviews")).get(0) );        
     }
     
     @Test

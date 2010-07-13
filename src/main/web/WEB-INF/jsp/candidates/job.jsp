@@ -12,6 +12,19 @@
 <fmt:formatDate var="candidateCreationDateFormatted" value="${candidate.creationDate}" pattern="MM/dd/yyyy" scope="page"/>
 <p><strong>Created</strong><br/>${candidateCreationDateFormatted}</p>
 
+<h3>Interviews</h3>
+Create Interview:<br/>
+<form action="/app/candidates/${candidate.candidateId}/jobs/${job.jobId}/interviews" method="post">
+	Interviewer<br/>
+	<select id="interviewer" name="interviewer">
+	</select><br/>
+	Date and Time<br/>
+	<input type="text" id="startTime" name="startTime" /><br/>
+	Location<br/>
+	<input type="text" id="location" name="location" /><br/>
+	<input type="submit" value="Add Interview" />
+</form>
+
 <h3>Add Rating</h3>
 <form action="/app/candidates/${candidate.candidateId}/jobs/${job.jobId}/ratings" method="post">
 	Rating for <select id="skillId" name="skillId">

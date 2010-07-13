@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pb.hiring.model.Candidate;
+import com.pb.hiring.model.Interview;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Rating;
 import com.pb.hiring.model.Skill;
@@ -92,5 +93,19 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
     public Criteria userByEmail(final String email) {
         return sessionFactory.getCurrentSession().createCriteria(User.class)
             .add( Restrictions.eq("email", email) );
+    }
+    
+    @Override
+    @Transactional
+    public Criteria userById(final Long userId) {
+        return sessionFactory.getCurrentSession().createCriteria(User.class)
+            .add( Restrictions.idEq(userId) );
+    }    
+
+    @Override
+    public Criteria interviewsByCandidateAndJob(Long candidateId, Long jobId) {
+        return sessionFactory.getCurrentSession().createCriteria( Interview.class )
+            .add( Restrictions.eq("job.jobId", jobId) )
+            .add( Restrictions.eq("candidate.candidateId", candidateId) );
     }
 }

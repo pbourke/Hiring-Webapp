@@ -21,4 +21,7 @@ public interface ModelQueryHelper {
     
     Criteria allUsers();
     Criteria userByEmail(String email);
+    Criteria userById(Long userId);
+    
+    Criteria interviewsByCandidateAndJob(Long candidateId, Long jobId);
 }
