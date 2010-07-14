@@ -105,14 +105,20 @@ public class CandidatesControllerTest {
     public void testGetCandidateJobPageOneInterview() {
         final Job j = testData.job();
         final Candidate c = testData.candidate(j);
-        final User u = testData.user();
-        final Interview i = testData.interview(j, c, u);
+        final User interviewer = testData.user();
+        final User nonInterviewer = testData.user();
+        final Interview i = testData.interview(j, c, interviewer);
         final ModelMap modelMap = new ModelMap();
         assertEquals("candidates/job", candidatesController.getCandidateJobPage(c.getCandidateId(), j.getJobId(), modelMap) );
         assertEquals( "job was added to model map", j.getJobId(), ((Job)modelMap.get("job")).getJobId() );
         assertTrue( "interviews was added to model map", modelMap.containsAttribute("interviews") );
         assertEquals( "interviews size was correct", 1, ((List<Interview>)modelMap.get("interviews")).size() );
         assertEquals( "interviews was set correctly", i, ((List<Interview>)modelMap.get("interviews")).get(0) );        
+        assertTrue( "users was added to model map", modelMap.containsAttribute("users") );
+        final List<User> users = (List<User>) modelMap.get("users");
+        assertNotNull( "users was not null", users );
+        assertEquals( "users size was correct", 2, users.size() );
+        assertTrue( "users contains non-interviewer", users.contains(nonInterviewer));
     }
     
     @Test

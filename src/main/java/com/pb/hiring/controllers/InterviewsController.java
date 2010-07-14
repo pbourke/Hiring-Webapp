@@ -38,11 +38,11 @@ public class InterviewsController {
 
     @Transactional
     @RequestMapping(method=RequestMethod.POST, value="/candidates/{candidateId}/jobs/{jobId}/interviews")
-    public String addInterview(@PathVariable final Long candidateId, @PathVariable final Long jobId, @RequestParam("interviewerId") final Long interviewerId, @RequestParam("startTime") final Date startTime, @RequestParam("location") final String location) {
+    public String addInterview(@PathVariable final Long candidateId, @PathVariable final Long jobId, @RequestParam("interviewerUserId") final Long interviewerUserId, @RequestParam("startTime") final Date startTime, @RequestParam("location") final String location) {
         // resolve the model objects
         final Candidate candidate = (Candidate) modelQueryHelper.candidateById(candidateId).uniqueResult();
         final Job job = (Job) modelQueryHelper.jobById(jobId).uniqueResult();
-        final User interviewer = (User) modelQueryHelper.userById(interviewerId).uniqueResult();
+        final User interviewer = (User) modelQueryHelper.userById(interviewerUserId).uniqueResult();
         final Interview interview = new Interview(job, candidate, interviewer, startTime, location);
         
         logger.info( format("Adding an interview for job=%s, candidate=%s, interviewer=%s, startTime=%s, location=%s", 
@@ -50,6 +50,6 @@ public class InterviewsController {
         
         sessionFactory.getCurrentSession().save(interview);
         
-        return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId+"/interviews";
+        return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId;
     }    
 }

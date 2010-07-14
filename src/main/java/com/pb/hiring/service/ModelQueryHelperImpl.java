@@ -106,6 +106,7 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
     public Criteria interviewsByCandidateAndJob(Long candidateId, Long jobId) {
         return sessionFactory.getCurrentSession().createCriteria( Interview.class )
             .add( Restrictions.eq("job.jobId", jobId) )
-            .add( Restrictions.eq("candidate.candidateId", candidateId) );
+            .add( Restrictions.eq("candidate.candidateId", candidateId) )
+            .addOrder( Order.asc("startTime") );
     }
 }

@@ -62,7 +62,7 @@ public class InterviewsControllerTest {
         final Job j = testData.job();
         c.addJob(j);
         final User u = testData.user();
-        assertEquals("redirect:/app/candidates/"+c.getCandidateId()+"/jobs/"+j.getJobId()+"/interviews", 
+        assertEquals("redirect:/app/candidates/"+c.getCandidateId()+"/jobs/"+j.getJobId(), 
                 interviewsController.addInterview(c.getCandidateId(), j.getJobId(), u.getUserId(), new Date(), "Conference Room"));
         final List<Interview> interviews = modelQueryHelper.interviewsByCandidateAndJob(c.getCandidateId(), j.getJobId()).list();
         assertTrue ( !interviews.isEmpty() );

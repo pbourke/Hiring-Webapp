@@ -96,6 +96,10 @@ public class CandidatesController {
         final List<Interview> interviews = modelQueryHelper.interviewsByCandidateAndJob(candidateId, jobId).list();
         modelMap.addAttribute("interviews", interviews);
         
+        // retrieve users and add to model
+        final List<User> users = modelQueryHelper.allUsers().list();
+        modelMap.addAttribute("users", users);
+        
         return "candidates/job";
     }
 

@@ -16,7 +16,10 @@
 Create Interview:<br/>
 <form action="/app/candidates/${candidate.candidateId}/jobs/${job.jobId}/interviews" method="post">
 	Interviewer<br/>
-	<select id="interviewer" name="interviewer">
+	<select id="interviewerUserId" name="interviewerUserId">
+	<c:forEach items="${users}" var="user">
+		<option value="${user.userId}"><c:out value="${user.name}"/></option>
+	</c:forEach>
 	</select><br/>
 	Date and Time<br/>
 	<input type="text" id="startTime" name="startTime" /><br/>
@@ -24,6 +27,22 @@ Create Interview:<br/>
 	<input type="text" id="location" name="location" /><br/>
 	<input type="submit" value="Add Interview" />
 </form>
+
+<h3>Interviews</h3>
+<table>
+  <tr>
+    <th>Start</th>
+    <th>Interviewer</th>
+    <th>Location</th>
+  </tr>
+<c:forEach items="${interviews}" var="interview">
+  <tr>
+    <td>${interview.startTime}</td>
+    <td>${interview.interviewer.name}</td>
+    <td>${interview.location}</td>
+  </tr>
+</c:forEach>
+</table>
 
 <h3>Add Rating</h3>
 <form action="/app/candidates/${candidate.candidateId}/jobs/${job.jobId}/ratings" method="post">
