@@ -38,7 +38,7 @@ Create Interview:<br/>
 <c:forEach items="${interviews}" var="interview">
   <tr>
     <td>${interview.startTime}</td>
-    <td>${interview.interviewer.name}</td>
+    <td><a href="/app/candidates/${interview.candidate.candidateId}/jobs/${interview.job.jobId}/interviews/${interview.interviewId}">${interview.interviewer.name}</a></td>
     <td>${interview.location}</td>
   </tr>
 </c:forEach>

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,5 +52,13 @@ public class InterviewsController {
         sessionFactory.getCurrentSession().save(interview);
         
         return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId;
-    }    
+    }
+    
+    @Transactional
+    @RequestMapping(method=RequestMethod.GET, value="/candidates/{candidateId}/jobs/{jobId}/interviews/{interviewId}")
+    public String getInterview(@PathVariable final Long candidateId, @PathVariable final Long jobId, @PathVariable final Long interviewId, final ModelMap modelMap) {
+        final Interview interview = (Interview) modelQueryHelper.interviewByIdAndCandidateAndJob(interviewId, candidateId, jobId).uniqueResult();
+        modelMap.addAttribute("interview", interview);
+        return "interviews/view";
+    }
 }

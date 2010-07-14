@@ -72,5 +72,16 @@ public class InterviewsControllerTest {
         assertEquals( u, i.getInterviewer() );
         assertNotNull( i.getStartTime() );
         assertEquals( "Conference Room", i.getLocation() );
-    }    
+    }
+    
+    @Test
+    public void testGetInterview() {
+        final Interview i = testData.interview();
+        final ModelMap modelMap = new ModelMap();
+        assertEquals( "interviews/view", 
+                interviewsController.getInterview(i.getCandidate().getCandidateId(), i.getJob().getJobId(), i.getInterviewId(), modelMap) );
+        assertTrue( "model map contains an interview", modelMap.containsAttribute("interview") );
+        final Interview iFromMap = (Interview) modelMap.get("interview");
+        assertEquals( "interviews are equal", i, iFromMap );
+    }
 }

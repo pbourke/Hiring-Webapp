@@ -80,4 +80,12 @@ public class TestDataGenerator {
         sessionFactory.getCurrentSession().save(interview);
         return interview;
     }
+    
+    /**
+     * Creates a Job, Candidate and User.
+     */
+    public Interview interview() {
+        final Job job = job();
+        return interview(job, candidate(job), user());
+    }
 }

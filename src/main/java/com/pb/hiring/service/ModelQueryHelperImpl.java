@@ -103,10 +103,26 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
     }    
 
     @Override
-    public Criteria interviewsByCandidateAndJob(Long candidateId, Long jobId) {
+    @Transactional
+    public Criteria interviewsByCandidateAndJob(final Long candidateId, final Long jobId) {
         return sessionFactory.getCurrentSession().createCriteria( Interview.class )
             .add( Restrictions.eq("job.jobId", jobId) )
             .add( Restrictions.eq("candidate.candidateId", candidateId) )
             .addOrder( Order.asc("startTime") );
+    }
+    
+    @Override
+    @Transactional
+    public Criteria interviewById(final Long interviewId) {
+        return sessionFactory.getCurrentSession().createCriteria( Interview.class )
+            .add( Restrictions.idEq(interviewId) );
+    }
+
+    @Override
+    @Transactional
+    public Criteria interviewByIdAndCandidateAndJob(final Long interviewId, final Long candidateId, final Long jobId) {
+        return interviewById(interviewId)
+            .add( Restrictions.eq("job.jobId", jobId) )
+            .add( Restrictions.eq("candidate.candidateId", candidateId) );            
     }
 }
