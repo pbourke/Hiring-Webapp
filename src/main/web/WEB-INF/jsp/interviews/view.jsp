@@ -12,8 +12,8 @@
 <ul>
 	<li>Date: ${interview.startTime}</li>
 	<li>Location: ${interview.location}</li>
-	<li>Candidate: <c:out value="${interview.candidate.name}"/></li>
-	<li>Job: <c:out value="${interview.job.title}"/></li>
+	<li>Candidate: <a href="/app/candidates/${interview.candidate.candidateId}"><c:out value="${interview.candidate.name}"/></a></li>
+	<li>Job: <a href="/app/jobs/${interview.job.jobId}"><c:out value="${interview.job.title}"/></a></li>
 </ul>
 
 <h3>Skills</h3>
