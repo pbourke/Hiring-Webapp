@@ -1,7 +1,9 @@
 package com.pb.hiring.controllers;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,7 @@ import com.pb.hiring.controllers.util.TestUserRequestContext;
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Interview;
 import com.pb.hiring.model.Job;
+import com.pb.hiring.model.Skill;
 import com.pb.hiring.model.User;
 import com.pb.hiring.service.ModelQueryHelper;
 
@@ -83,5 +86,14 @@ public class InterviewsControllerTest {
         assertTrue( "model map contains an interview", modelMap.containsAttribute("interview") );
         final Interview iFromMap = (Interview) modelMap.get("interview");
         assertEquals( "interviews are equal", i, iFromMap );
+    }
+    
+    @Test
+    public void testAddSkillToInterview() {
+        final Interview i = testData.interview();
+        final Skill s = testData.skill();
+        assertFalse( i.getSkills().contains(s) );
+        assertEquals( "redirect:/app/candidates/" + i.getCandidate().getCandidateId()+"/jobs/"+i.getJob().getJobId()+"/interviews/"+i.getInterviewId(), interviewsController.addSkillToInterview(i.getCandidate().getCandidateId(), i.getJob().getJobId(), i.getInterviewId(), s.getSkillId()));
+        assertTrue( i.getSkills().contains(s) );
     }
 }

@@ -92,6 +92,19 @@ CREATE TABLE interviews (
 ALTER TABLE public.interviews OWNER TO postgres;
 
 --
+-- Name: interviews_skills; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE interviews_skills (
+    interview_id bigint NOT NULL,
+    skill_id bigint NOT NULL,
+    creation_date timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.interviews_skills OWNER TO postgres;
+
+--
 -- Name: job_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -282,6 +295,14 @@ ALTER TABLE ONLY interviews
 
 
 --
+-- Name: pk_interviews_skills; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY interviews_skills
+    ADD CONSTRAINT pk_interviews_skills PRIMARY KEY (interview_id, skill_id);
+
+
+--
 -- Name: ratings_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -369,6 +390,22 @@ ALTER TABLE ONLY candidates_jobs
 
 ALTER TABLE ONLY candidates_jobs
     ADD CONSTRAINT candidates_jobs_fk_job_id FOREIGN KEY (job_id) REFERENCES jobs(job_id);
+
+
+--
+-- Name: fk_interviews_skills_interviews; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY interviews_skills
+    ADD CONSTRAINT fk_interviews_skills_interviews FOREIGN KEY (interview_id) REFERENCES interviews(interview_id);
+
+
+--
+-- Name: fk_interviews_skills_skill_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY interviews_skills
+    ADD CONSTRAINT fk_interviews_skills_skill_id FOREIGN KEY (skill_id) REFERENCES skills(skill_id);
 
 
 --
@@ -525,6 +562,16 @@ REVOKE ALL ON TABLE interviews FROM PUBLIC;
 REVOKE ALL ON TABLE interviews FROM postgres;
 GRANT ALL ON TABLE interviews TO postgres;
 GRANT SELECT,INSERT,UPDATE ON TABLE interviews TO app;
+
+
+--
+-- Name: interviews_skills; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE interviews_skills FROM PUBLIC;
+REVOKE ALL ON TABLE interviews_skills FROM postgres;
+GRANT ALL ON TABLE interviews_skills TO postgres;
+GRANT SELECT,INSERT,UPDATE ON TABLE interviews_skills TO app;
 
 
 --

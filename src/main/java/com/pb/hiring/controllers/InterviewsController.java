@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,7 @@ import com.pb.hiring.controllers.util.UserRequestContext;
 import com.pb.hiring.model.Candidate;
 import com.pb.hiring.model.Interview;
 import com.pb.hiring.model.Job;
+import com.pb.hiring.model.Skill;
 import com.pb.hiring.model.User;
 import com.pb.hiring.service.ModelQueryHelper;
 
@@ -60,5 +60,15 @@ public class InterviewsController {
         final Interview interview = (Interview) modelQueryHelper.interviewByIdAndCandidateAndJob(interviewId, candidateId, jobId).uniqueResult();
         modelMap.addAttribute("interview", interview);
         return "interviews/view";
+    }
+    
+    @Transactional
+    @RequestMapping(method=RequestMethod.POST, value="/candidates/{candidateId}/jobs/{jobId}/interviews/{interviewId}/skills")
+    public String addSkillToInterview(@PathVariable final Long candidateId, @PathVariable final Long jobId, @PathVariable final Long interviewId, @RequestParam("skillId") final Long skillId) {
+        final Interview interview = (Interview) modelQueryHelper.interviewByIdAndCandidateAndJob(interviewId, candidateId, jobId).uniqueResult();
+        final Skill skill = (Skill) modelQueryHelper.skillById(skillId).uniqueResult();
+        interview.addSkill(skill);
+        sessionFactory.getCurrentSession().update(interview);
+        return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId+"/interviews/"+interviewId;
     }
 }

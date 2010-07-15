@@ -2,7 +2,12 @@ package com.pb.hiring.model;
 
 import static java.lang.String.format;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -12,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -44,6 +51,11 @@ public class Interview {
     @JoinColumn(name="user_id")
     private User interviewer;
     
+    @ManyToMany(cascade=CascadeType.PERSIST, targetEntity=Skill.class)
+    @JoinTable(name="interviews_skills",
+            joinColumns=@JoinColumn(name="interview_id"), inverseJoinColumns=@JoinColumn(name="skill_id"))
+    private Set<Skill> skills = new HashSet<Skill>();
+
     private String notes;
     
     private String location;
@@ -94,6 +106,15 @@ public class Interview {
     }
     public void setInterviewer(User interviewer) {
         this.interviewer = interviewer;
+    }
+    
+    public List<Skill> getSkills() {
+        final List<Skill> skillsList = new ArrayList<Skill>(skills);
+        Collections.sort(skillsList);
+        return Collections.unmodifiableList( skillsList );
+    }
+    public void addSkill(final Skill s) {
+        skills.add(s);
     }
 
     public String getNotes() {
