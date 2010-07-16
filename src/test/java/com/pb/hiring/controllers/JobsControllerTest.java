@@ -21,6 +21,7 @@ import org.springframework.ui.ModelMap;
 import com.pb.hiring.TestDataGenerator;
 import com.pb.hiring.model.Job;
 import com.pb.hiring.model.Skill;
+import com.pb.hiring.service.ModelQueryHelper;
 
 @Transactional
 @TransactionConfiguration
@@ -32,6 +33,9 @@ public class JobsControllerTest {
     
     @Autowired(required=true)
     private TestDataGenerator testData;
+    
+    @Autowired(required=true)
+    private ModelQueryHelper modelQueryHelper;
     
     @BeforeClass
     public static void setUpLog4J() {
@@ -116,11 +120,10 @@ public class JobsControllerTest {
     public void testRemoveSkill() {
         final Job job = testData.job();
         final Skill skill = job.getSkills().get(0);
-        final ModelMap modelMap = new ModelMap();
         
         assertFalse( "job has a skill", job.getSkills().isEmpty() );
-        assertEquals( "redirect:/app/jobs/" + job.getJobId(), jobsController.removeSkill(job.getJobId(), skill.getSkillId(), true, modelMap) );
-        final Job jobAfterRemove = (Job) modelMap.get("job");
+        assertEquals( "redirect:/app/jobs/" + job.getJobId(), jobsController.removeSkill(job.getJobId(), skill.getSkillId(), true) );
+        final Job jobAfterRemove = (Job) modelQueryHelper.jobById( job.getJobId() ).uniqueResult();
         assertEquals( "job is the same", job.getJobId(), jobAfterRemove.getJobId() );
         assertEquals( 0, jobAfterRemove.getSkills().size() );        
     }
