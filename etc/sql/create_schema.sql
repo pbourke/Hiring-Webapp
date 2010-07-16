@@ -571,7 +571,7 @@ GRANT SELECT,INSERT,UPDATE ON TABLE interviews TO app;
 REVOKE ALL ON TABLE interviews_skills FROM PUBLIC;
 REVOKE ALL ON TABLE interviews_skills FROM postgres;
 GRANT ALL ON TABLE interviews_skills TO postgres;
-GRANT SELECT,INSERT,UPDATE ON TABLE interviews_skills TO app;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE interviews_skills TO app;
 
 
 --

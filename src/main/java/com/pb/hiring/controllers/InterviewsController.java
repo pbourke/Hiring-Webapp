@@ -78,5 +78,14 @@ public class InterviewsController {
         return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId+"/interviews/"+interviewId;
     }
     
-    // TODO: Implement removeSkillFromInterview
+    @Transactional
+    @RequestMapping(method=RequestMethod.POST, value="/candidates/{candidateId}/jobs/{jobId}/interviews/{interviewId}/skills/{skillId}")
+    public String removeSkillFromInterview(@PathVariable final Long candidateId, @PathVariable final Long jobId, @PathVariable final Long interviewId, @PathVariable final Long skillId, @RequestParam("removeSkill") final boolean removeSkill) {
+        if ( removeSkill ) {
+            final Interview interview = (Interview) modelQueryHelper.interviewByIdAndCandidateAndJob(interviewId, candidateId, jobId).uniqueResult();
+            final Skill skill = (Skill) modelQueryHelper.skillById(skillId).uniqueResult();
+            interview.removeSkill(skill);
+        }       
+        return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId+"/interviews/"+interviewId;
+    }
 }

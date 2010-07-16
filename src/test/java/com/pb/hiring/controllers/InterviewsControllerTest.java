@@ -115,4 +115,14 @@ public class InterviewsControllerTest {
         assertEquals( "redirect:/app/candidates/" + i.getCandidate().getCandidateId()+"/jobs/"+i.getJob().getJobId()+"/interviews/"+i.getInterviewId(), interviewsController.addSkillToInterview(i.getCandidate().getCandidateId(), i.getJob().getJobId(), i.getInterviewId(), s.getSkillId()));
         assertTrue( i.getSkills().contains(s) );
     }
+    
+    @Test
+    public void testRemoveSkillFromInterview() {
+        final Interview i = testData.interview();
+        final Skill s = testData.skill();
+        i.addSkill(s);
+        assertFalse( i.getSkills().isEmpty() );
+        assertEquals( "redirect:/app/candidates/" + i.getCandidate().getCandidateId()+"/jobs/"+i.getJob().getJobId()+"/interviews/"+i.getInterviewId(), interviewsController.removeSkillFromInterview(i.getCandidate().getCandidateId(), i.getJob().getJobId(), i.getInterviewId(), s.getSkillId(), true) );       
+        assertTrue( "skill was removed", i.getSkills().isEmpty() );
+    }
 }

@@ -116,6 +116,9 @@ public class Interview {
     public void addSkill(final Skill s) {
         skills.add(s);
     }
+    public void removeSkill(final Skill skill) {
+        skills.remove(skill);
+    }
 
     public String getNotes() {
         return notes;
