@@ -34,12 +34,19 @@ Create Interview:<br/>
     <th>Start</th>
     <th>Interviewer</th>
     <th>Location</th>
+    <th>Skills</th>
   </tr>
 <c:forEach items="${interviews}" var="interview">
   <tr>
     <td>${interview.startTime}</td>
     <td><a href="/app/candidates/${interview.candidate.candidateId}/jobs/${interview.job.jobId}/interviews/${interview.interviewId}">${interview.interviewer.name}</a></td>
     <td>${interview.location}</td>
+    <td>
+    	<!-- Should be able to do this w/ fn:join: -->
+    	<c:forEach items="${interview.skills}" var="skill">
+    		<span><c:out value="${skill.title}"/></span>
+    	</c:forEach>
+    </td>
   </tr>
 </c:forEach>
 </table>

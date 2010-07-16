@@ -3,6 +3,7 @@ package com.pb.hiring.controllers;
 import static java.lang.String.format;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,6 +60,11 @@ public class InterviewsController {
     public String getInterview(@PathVariable final Long candidateId, @PathVariable final Long jobId, @PathVariable final Long interviewId, final ModelMap modelMap) {
         final Interview interview = (Interview) modelQueryHelper.interviewByIdAndCandidateAndJob(interviewId, candidateId, jobId).uniqueResult();
         modelMap.addAttribute("interview", interview);
+        
+        final List<Skill> skills = modelQueryHelper.allSkills().list();
+        skills.removeAll( interview.getSkills() );
+        modelMap.addAttribute("skills", skills);
+        
         return "interviews/view";
     }
     
@@ -71,4 +77,6 @@ public class InterviewsController {
         sessionFactory.getCurrentSession().update(interview);
         return "redirect:/app/candidates/"+candidateId+"/jobs/"+jobId+"/interviews/"+interviewId;
     }
+    
+    // TODO: Implement removeSkillFromInterview
 }

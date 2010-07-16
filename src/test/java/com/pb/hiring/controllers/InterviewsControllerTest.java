@@ -78,14 +78,33 @@ public class InterviewsControllerTest {
     }
     
     @Test
-    public void testGetInterview() {
+    public void testGetInterviewNoSkills() {
+        Job job = testData.jobNoSkills();
+        final Interview i = testData.interview(job, testData.candidate(job), testData.user());
+        final ModelMap modelMap = new ModelMap();
+        assertEquals( "interviews/view", 
+                interviewsController.getInterview(i.getCandidate().getCandidateId(), i.getJob().getJobId(), i.getInterviewId(), modelMap) );
+        assertTrue( "model map contains an interview", modelMap.containsAttribute("interview") );
+        assertTrue( "model map contains a list of skills", modelMap.containsAttribute("skills") );
+        final Interview iFromMap = (Interview) modelMap.get("interview");
+        assertEquals( "interviews are equal", i, iFromMap );
+        final List<Skill> skills = (List<Skill>) modelMap.get("skills");
+        assertTrue( "skills list is empty", skills.isEmpty() );
+    }
+
+    @Test
+    public void testGetInterviewHaveSkills() {
         final Interview i = testData.interview();
         final ModelMap modelMap = new ModelMap();
         assertEquals( "interviews/view", 
                 interviewsController.getInterview(i.getCandidate().getCandidateId(), i.getJob().getJobId(), i.getInterviewId(), modelMap) );
         assertTrue( "model map contains an interview", modelMap.containsAttribute("interview") );
+        assertTrue( "model map contains a list of skills", modelMap.containsAttribute("skills") );
         final Interview iFromMap = (Interview) modelMap.get("interview");
         assertEquals( "interviews are equal", i, iFromMap );
+        final List<Skill> skills = (List<Skill>) modelMap.get("skills");
+        assertEquals( 1, skills.size() );
+        assertTrue( "skills list contains the test skill", skills.contains(i.getJob().getSkills().get(0)) );
     }
     
     @Test

@@ -106,6 +106,8 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
     @Transactional
     public Criteria interviewsByCandidateAndJob(final Long candidateId, final Long jobId) {
         return sessionFactory.getCurrentSession().createCriteria( Interview.class )
+            .setFetchMode("skills", FetchMode.JOIN)
+            .setResultTransformer( Criteria.DISTINCT_ROOT_ENTITY )
             .add( Restrictions.eq("job.jobId", jobId) )
             .add( Restrictions.eq("candidate.candidateId", candidateId) )
             .addOrder( Order.asc("startTime") );
@@ -115,13 +117,14 @@ public class ModelQueryHelperImpl implements ModelQueryHelper {
     @Transactional
     public Criteria interviewById(final Long interviewId) {
         return sessionFactory.getCurrentSession().createCriteria( Interview.class )
+            .setFetchMode("skills", FetchMode.JOIN)
             .add( Restrictions.idEq(interviewId) );
     }
 
     @Override
     @Transactional
     public Criteria interviewByIdAndCandidateAndJob(final Long interviewId, final Long candidateId, final Long jobId) {
-        return interviewById(interviewId)
+        return interviewById(interviewId)        
             .add( Restrictions.eq("job.jobId", jobId) )
             .add( Restrictions.eq("candidate.candidateId", candidateId) );            
     }

@@ -22,6 +22,15 @@ public class TestDataGenerator {
     private final AtomicInteger candidateCtr = new AtomicInteger(0);
     private final AtomicInteger userCtr = new AtomicInteger(0);
     
+    public Job jobNoSkills() {
+        Job j = new Job();
+        j.setDescription("Description for the job");
+        j.setTitle("Job Title " + jobCtr.incrementAndGet());
+        sessionFactory.getCurrentSession().save(j);
+        sessionFactory.getCurrentSession().flush();
+        return j;
+    }
+
     public Job job() {
         Job j = new Job();
         j.setDescription("Description for the job");
